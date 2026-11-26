@@ -31,19 +31,19 @@ A vendor does not approve individual agents before they can register or promote 
 
 ## 4. Customer buys through an agent link
 
-1. Customer opens the agent's product link.
-2. KamerBiz records the referral token and the applicable attribution context.
-3. Customer views the vendor's product page and can continue browsing the store.
-4. Customer checks out as a guest and submits the order.
-5. The order item stores the attributed agent and a snapshot of the applicable commission terms.
-6. Vendor receives and reviews the order.
-7. Vendor confirms availability and updates the order status.
+1. Customer opens the agent's reusable product link.
+2. KamerBiz validates the opaque referral token on the server and records the valid referral for that browser/device.
+3. The attribution remains valid for 30 days from the click. A later valid referral from another agent for the same product replaces the earlier one; a direct visit does not erase it.
+4. Customer views the vendor's product page and can continue browsing the store.
+5. Customer checks out as a guest. The checkout resolves valid attribution server-side and copies it onto the matching order item.
+6. The order item stores the agent and a snapshot of the applicable commission terms.
+7. Vendor receives and reviews the order, confirms availability and updates the order status.
 8. Customer pays the vendor directly.
 9. Vendor checks the actual payment account and confirms or rejects payment.
 10. Vendor fulfils the order.
 11. When the item meets commission eligibility rules, the commission becomes payable.
 
-The customer experience remains a purchase from the business. The agent referral should not make the checkout confusing or require the customer to create an agent account.
+The same customer may return and buy the referred product again within the 30-day window without clicking the link again, using the same browser/device. The first release does not promise cross-device attribution. The customer experience remains a normal purchase and does not require an agent account.
 
 ## 5. Commission lifecycle
 
@@ -57,12 +57,14 @@ The customer experience remains a purchase from the business. The agent referral
 
 Commission must be calculated per order item because a single order can contain products with different vendors, agents or commission terms.
 
-## 6. Direct customer order
+## 6. Direct customer order and vendor-specific checkout
 
-1. Customer opens a business store without an agent referral.
-2. Customer submits an order as a guest.
-3. Vendor reviews and fulfils the order.
-4. The order is recorded as direct unless a valid referral attribution applies under the platform's attribution rules.
+1. Customer discovers and opens a business store independently, without an agent referral.
+2. Customer browses products, adds items to the cart and submits an order as a guest.
+3. Direct orders work even if the vendor has no agents or has not enabled any products for agent promotion.
+4. The order is recorded as direct when no valid referral attribution exists for the purchased product.
+5. In the first release, one order contains products from one vendor only. If a customer shops with several vendors, KamerBiz presents separate vendor-specific checkouts and creates a separate order for each vendor.
+6. Each vendor independently reviews, receives payment for and fulfils its own order.
 
 ## 7. Payment review
 

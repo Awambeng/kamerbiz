@@ -25,6 +25,7 @@ The agent network should not be implemented as a vendor-approved or invitation-o
 - Customers can browse a public store and place orders directly without an agent referral link. Direct selling must work even when a vendor has no agents or has not enabled any products for agent promotion.
 - Public catalogue and product pages.
 - Cart and guest checkout.
+- One vendor per order in the first release; a mixed-vendor cart is separated into vendor-specific checkouts and orders.
 - Customer contact and delivery or pickup details.
 - Order reference and private tracking link.
 - Vendor order review, acceptance, rejection and status updates.
@@ -43,7 +44,9 @@ The agent network should not be implemented as a vendor-approved or invitation-o
 - No vendor invitation, vendor approval or manual identity validation required for agent onboarding.
 - One agent account can access eligible products from multiple businesses.
 - Browse/search eligible products across participating businesses.
-- Generate or copy a unique tracking link for an eligible product.
+- Generate or copy a reusable, opaque tracking link for an eligible product; the same link can generate sales for multiple customers.
+- Apply a 30-day attribution window from a valid referral click, including repeat purchases of the referred product in the same browser/device.
+- Use last-valid-referral-wins when multiple agents refer the same product; a direct visit does not erase an unexpired referral.
 - Share product details and links outside KamerBiz.
 - Agent dashboard showing attributed orders and commission status.
 - Vendor view of orders attributed to agents.
@@ -96,7 +99,8 @@ The agent network should not be implemented as a vendor-approved or invitation-o
 - Commission terms must be snapshotted for attributed sales so later edits apply only to future eligible referrals.
 - A screenshot alone must never mark a payment as paid.
 - Order, payment, fulfilment and commission states must be modelled separately.
-- Referral attribution must be deterministic, auditable and resistant to simple URL tampering.
+- Referral attribution must be deterministic, auditable and resistant to simple URL tampering. The first release uses browser/device-based attribution and does not promise cross-device matching.
+- Referral attribution is optional; public stores and direct guest checkout must always work without referral links.
 - Stock must be checked when an order is accepted or otherwise reserved, to reduce overselling.
 
 ## Scope changes

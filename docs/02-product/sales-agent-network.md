@@ -91,18 +91,19 @@ Attribution should be stored server-side and attached to the relevant order item
 - Currency and calculated commission.
 - Attribution rule/version used.
 
-### Attribution policy to finalise
+### Agreed first-release attribution policy
 
-The implementation needs one explicit policy for:
+- **Reusable links:** One referral link can be used by unlimited customers and can generate multiple eligible sales.
+- **Attribution window:** 30 days from a valid referral click. A customer may return and buy again within that window without clicking the link again.
+- **Last valid referral wins:** If the same browser/customer context follows valid links from different agents for the same product, the latest valid agent referral receives attribution.
+- **Direct visits:** A direct visit to the store does not erase an unexpired valid referral. A purchase with no valid referral remains a direct sale.
+- **Per-item recording:** Attribution is resolved server-side and copied to the relevant order item at checkout. A click is not a sale and does not itself create payable commission.
+- **Repeat purchases:** Repeat purchases of the referred product within the 30-day window can earn commission, provided each order item meets payment and fulfilment eligibility rules.
+- **Browser/device limitation:** The first release uses a secure first-party browser identifier. Attribution may not survive cookie deletion, private browsing or switching devices. Do not promise cross-device attribution.
+- **Product scope:** The proposed first-release default is that a product link attributes purchases of that same product only. Whether it should also cover other eligible products from the same vendor remains an open product decision.
+- **Promotion disabled:** Disabling promotion stops new referrals. The proposed default is to honour an attribution already recorded until its 30-day expiry; confirm this before implementation.
 
-- Attribution window duration.
-- First-click versus last-eligible-click behaviour.
-- Whether a customer's later direct visit retains an earlier referral.
-- How multiple agents' links interact.
-- Cross-device referrals, where browser-based attribution may not survive.
-- Returns, partial refunds, partial fulfilment and cancelled order items.
-
-Do not silently guess these rules in different parts of the application. Implement them in one documented attribution service and version the policy.
+Use one backend attribution service and version the policy. Never trust agent IDs, product IDs or commission values supplied by the browser as authoritative.
 
 ## Commission lifecycle
 
@@ -164,7 +165,9 @@ These safeguards should not become a manual approval process for every new agent
 - A many-to-many relationship exists between agents and vendors through attributed activity, not through vendor-owned agent accounts.
 - Products have vendor-controlled agent-promotion settings and commission terms.
 - Referral links map to server-side attribution records.
-- Orders may contain items from different products and vendors; if multi-vendor checkout is not supported initially, enforce one vendor per order while keeping attribution and data models item-aware.
+- The first release enforces one vendor per order. A customer can place separate orders with different vendors; a mixed-vendor cart must be separated into vendor-specific checkouts.
+- Attribution is optional and stored per order item. Direct store visits and direct orders work without any agent link.
+- The 30-day repeat-purchase attribution is browser/device-based in the first release; cross-device attribution is not promised.
 - Commission records reference order items and preserve snapshots.
 - Financial state changes are append-only or auditable.
 - Agent dashboards aggregate only the signed-in agent's own records across vendors.
