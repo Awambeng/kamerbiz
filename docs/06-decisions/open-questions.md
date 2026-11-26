@@ -1,47 +1,47 @@
 # Open questions
 
-These questions need answers before the related decisions can be treated as final.
+These questions need answers before the related behaviour is implemented. They do not change the accepted product direction that agents can self-register and promote eligible products from multiple businesses through one account.
 
-## Market and users
+## Agent attribution
 
-- Which business type has the strongest need for the first version?
-- How many orders does a typical target business receive?
-- How are orders recorded today?
-- How often do owners lose track of customer requests?
-- Which tools do owners already pay for?
+- What is the referral attribution window?
+- Should last eligible click or first eligible click receive attribution?
+- What happens when a customer clicks links from multiple agents?
+- How should direct visits after a referral be attributed?
+- What can we reliably support across browsers and devices?
+- Can a customer order from multiple vendors in one checkout, or should the first release enforce one vendor per order?
 
-## Customer ordering
+## Commission calculation
 
-- Should every store allow direct checkout?
-- Should a business be able to confirm availability before the customer pays?
-- Which customer details are truly needed?
-- Which delivery and pickup choices are most common?
+- Is commission calculated on product subtotal before or after discounts?
+- Are delivery fees and taxes excluded from commission?
+- How are quantity changes, partial fulfilment, partial refunds and returns handled?
+- Can vendors use fixed and percentage commissions on different products?
+- What minimum payout threshold, if any, should be shown?
 
-## Payments
+## Vendor and agent operations
 
-- Which payment methods should be supported at launch?
-- What evidence do businesses need from customers?
-- What is the safest and clearest payment review process?
-- Are official payment provider connections available and suitable for the target businesses?
+- Which fields and conditions must a vendor provide before a product can be promoted?
+- Can vendors pause an individual agent for abuse without introducing an approval gate for everyone?
+- What dispute process should exist for missing or incorrect commission records?
+- Which payout methods and payout references should be recorded?
+
+## Platform operations
+
+- What moderation actions are available for spam, fraud or deceptive promotion?
+- What account recovery and contact channels are required?
+- What retention period applies to referral, order and commission audit records?
 
 ## Business model
 
-- Would owners prefer a monthly fee, a yearly fee or another model?
-- What price would feel fair?
-- Which features are essential at each price level?
-- What support will owners expect?
-
-## Brand
-
-- Is KamerBiz available as a domain and on important social platforms?
-- Are there trademark or naming conflicts?
-- Do business owners understand and trust the name and message?
+- Would vendors pay a subscription, a commission-related fee or another model?
+- Should agent network access be included in the base plan or offered as a paid capability?
 
 ## Technology and operations
 
 - Where should the platform be hosted?
 - What will hosting and file storage cost?
-- What support and backup process is needed?
+- What backup, monitoring and support process is needed?
 - What data should be kept, and for how long?
 
 ## How to close a question

@@ -1,69 +1,93 @@
 # Product overview
 
+## What KamerBiz is
+
+KamerBiz is a digital platform that helps small businesses in Cameroon sell products, manage their operations and reach more customers.
+
+It brings together business storefronts, order and stock management, and a shared sales-agent network. A business can sell directly to customers and can also let independent agents promote selected products for commission.
+
 ## The problem we want to solve
 
-Small businesses often receive customer requests through several places, such as WhatsApp, Facebook, Instagram, phone calls and walk-in visits. Keeping track of every request can be difficult.
+Small businesses often receive customer requests through WhatsApp, Facebook, Instagram, phone calls and walk-in visits. Keeping track of products, stock, orders, payments and delivery can be difficult.
 
-KamerBiz aims to bring important parts of this work into one simple place.
+Many businesses also depend on the owner alone to find customers. KamerBiz gives them a way to organise sales and extend their reach through people who promote their products.
 
-## How the platform will work
+These capabilities should remain connected in one platform, not become separate applications.
 
-KamerBiz will host many businesses. Each business will have:
+## Main participants
 
-- A public online store for customers.
-- A private dashboard for the owner.
-- Its own products, orders, customers and settings.
+### Vendor
 
-A business must never be able to view another business's private information.
+A vendor owns or operates a business on KamerBiz. The vendor manages the catalogue, prices, stock, orders, payment review and fulfilment. The vendor decides which products can be promoted by agents and sets the commission terms.
 
-## Three connected product areas
+### Sales agent
+
+A sales agent is any person who creates an agent account and promotes products from one or more KamerBiz businesses. Agent registration is self-service: no vendor invitation, vendor approval or manual identity validation is required to start using the agent features.
+
+An agent can discover participating products across multiple businesses from one account, create or copy tracking links, share product information and view attributed orders and commissions.
+
+### Customer
+
+A customer discovers a product, visits the relevant business storefront, places an order and pays the business directly using the payment methods the business provides.
+
+## Connected product areas
 
 ### Sell
 
-- Public store page.
-- Product catalogue and categories.
-- Product details and images.
-- Shopping cart.
-- Customer checkout.
-- Order confirmation and tracking.
+- Public business storefront.
+- Product catalogue, categories, details and images.
+- Cart and guest checkout.
+- Order reference and private tracking link.
+- Product sharing links, including agent-attributed links.
 
 ### Manage
 
-- Product and stock records.
-- Order list and order status.
+- Business profile and store settings.
+- Products, prices and stock.
+- Orders and customers.
 - Payment evidence review.
-- Customer details and order history.
 - Delivery and pickup information.
+- Agent promotion settings and commission terms.
+- Agent-attributed order and commission records.
 
 ### Grow
 
-- Order and sales summaries.
-- Best-selling products.
-- Sales by source, where the source can be identified.
+- Sales summaries and product performance.
+- Direct and agent-attributed sales.
+- Agent performance across eligible products.
 - Repeat customer information.
-- Useful reports for business owners.
+- Useful reports for business owners and agents.
 
-## Customer journey
+## Agent network principles
 
-1. A customer opens a business store from a social media link or another source.
-2. The customer views products and adds items to a cart.
-3. The customer enters contact and delivery details.
-4. The customer submits an order.
-5. The business reviews the order and confirms availability when needed.
-6. The customer follows the business's payment instructions.
-7. The customer submits payment details or evidence if requested.
-8. The business checks its payment account and confirms or rejects the payment.
-9. The business prepares the order for pickup or delivery.
-10. The customer checks the order status using a private tracking link.
+- One agent account can promote products from multiple businesses.
+- Agents do not need a vendor's approval to register or begin exploring eligible products.
+- A vendor must explicitly make a product available to the agent network and define its commission terms before agents can promote it through KamerBiz.
+- Vendors retain control of product price, stock, order acceptance, payment confirmation and fulfilment.
+- Agents cannot promise discounts, stock availability, delivery times or product claims that the vendor has not provided.
+- Referral attribution and commission rules must be visible and understandable.
+- Commission records must be traceable to the order items that generated them.
+
+## Customer and payment journey
+
+1. A customer opens a business store directly or through an agent's product link.
+2. The customer views products and submits an order as a guest.
+3. The business reviews the order and confirms availability where needed.
+4. The customer pays the business using the business's stated payment method.
+5. The customer submits a transaction reference or payment evidence if requested.
+6. The business checks its own payment account and confirms or rejects payment.
+7. The business prepares and fulfils the order.
+8. When the order meets the commission eligibility rules, KamerBiz records the agent commission as payable.
+9. The vendor pays the agent outside KamerBiz in the initial release and records the payout.
 
 ## Local payment approach
 
-At first, customers pay the business directly using a supported method such as MTN MoMo or Orange Money.
+Customers pay businesses directly using supported methods such as MTN MoMo or Orange Money. KamerBiz does not receive or hold customer money in the initial release.
 
-The platform does not receive or hold the customer's money. A payment screenshot is only evidence for the business to review. It does not prove that money was received.
+A payment screenshot is evidence for review, not proof that money arrived. Only the vendor can confirm receipt after checking the actual payment account.
+
+Agent commission settlement is also recorded, not processed, by the platform in the initial release.
 
 ## Languages
 
-The platform interface will support English and French. English will be the default language.
-
-Business owners will be responsible for the accuracy of the product information they enter. The platform will not translate their product descriptions automatically without their approval.
+The platform supports English and French. English is the default language.

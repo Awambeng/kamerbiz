@@ -9,18 +9,22 @@ Use these statuses:
 - **Needs validation:** The choice must be checked with users or through research.
 - **Replaced:** A newer decision has taken its place.
 
-| Date       | Decision                                                      | Status                     | Reason or next step                                                    |
-| ---------- | ------------------------------------------------------------- | -------------------------- | ---------------------------------------------------------------------- |
-| 2026-11-25 | Use KamerBiz as the working brand name                        | Accepted as working name   | Check domain, social handle and trademark availability                 |
-| 2026-11-25 | Use hope as the main emotional direction                      | Accepted                   | Keep the brand helpful, positive and honest                            |
-| 2026-11-25 | Start with businesses selling physical products               | Proposed, needs validation | Begin with fashion, perfume, cosmetics and general product sellers     |
-| 2026-11-25 | Build one platform with connected Sell, Manage and Grow areas | Proposed                   | Keep one joined-up experience                                          |
-| 2026-11-25 | Start with manual payment review                              | Proposed, needs validation | Business checks its own payment account; screenshot alone is not proof |
-| 2026-11-25 | Support English and French, with English as default           | Accepted as direction      | Apply this across the customer and vendor experience                   |
-| 2026-11-25 | Prefer a simple application structure for the first release   | Proposed                   | Avoid extra system parts without a clear need                          |
+| Date       | Decision                                                                                                          | Status                     | Reason or next step                                                                  |
+| ---------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------ |
+| 2026-11-25 | Use KamerBiz as the working brand name                                                                            | Accepted as working name   | Check domain, social handle and trademark availability                               |
+| 2026-11-25 | Use hope as the main emotional direction                                                                          | Accepted                   | Keep the brand helpful, positive and honest                                          |
+| 2026-11-25 | Start with businesses selling physical products                                                                   | Proposed, needs validation | Begin with fashion, perfume, cosmetics and general product sellers                   |
+| 2026-11-25 | Build one platform with connected Sell, Manage and Grow areas                                                     | Accepted direction         | Keep one joined-up experience                                                        |
+| 2026-11-25 | Start with manual payment review                                                                                  | Accepted direction         | Business checks its own payment account; screenshot alone is not proof               |
+| 2026-11-25 | Support English and French, with English as default                                                               | Accepted                   | Apply this across customer, vendor and agent experiences                             |
+| 2026-11-25 | Prefer a simple application structure for the first release                                                       | Proposed                   | Avoid extra system parts without a clear need                                        |
+| 2026-11-26 | Agent registration is self-service and does not require vendor invitation, approval or manual identity validation | Accepted product direction | Keep participation open and reduce onboarding friction                               |
+| 2026-11-26 | One agent account can promote eligible products from multiple businesses                                          | Accepted product direction | Agent identity is global to KamerBiz, not vendor-specific                            |
+| 2026-11-26 | Vendors control product eligibility and commission terms                                                          | Accepted product direction | Agents promote only products vendors have enabled; vendors retain commercial control |
+| 2026-11-26 | Commission is attributed and calculated per order item                                                            | Accepted product direction | A basket can contain different products and commission terms                         |
+| 2026-11-26 | KamerBiz records but does not hold or transfer agent commission funds in the initial release                      | Accepted product direction | Vendor pays agent directly; platform records payout evidence                         |
+| 2026-11-26 | Market research plan is not being expanded as part of this documentation change                                   | Accepted                   | Proceed with product refinement as requested                                         |
 
 ## Adding a decision
 
-Add a new row when a choice affects product scope, users, brand, money, security or technical direction.
-
-Include the date, decision, status and reason. Update an old row if a decision changes. Do not silently remove important decisions.
+Add a row when a choice affects product scope, users, brand, money, security or technical direction. Include the date, decision, status and reason. Update an old row if a decision changes. Do not silently remove important decisions.
