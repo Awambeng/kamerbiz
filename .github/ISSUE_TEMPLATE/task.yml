@@ -1,0 +1,35 @@
+name: Engineering task
+description: Track technical, documentation, security or operational work
+title: "chore: "
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective and rationale
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation / tests
+    validations:
+      required: true
+  - type: textarea
+    id: risk
+    attributes:
+      label: Security and operational risks
+    validations:
+      required: true
