@@ -80,6 +80,8 @@ const translations = {
     saved: "Your changes have been saved.",
     required: "Please enter your business name.",
     error: "Something went wrong. Please try again.",
+    storeConflict: "This store address is already in use.",
+    validationError: "Please check the information you entered.",
     identityError: "Identity service is not configured. Check the VITE_KEYCLOAK settings in .env.",
   },
   fr: {
@@ -116,6 +118,8 @@ const translations = {
     saved: "Vos modifications ont été enregistrées.",
     required: "Veuillez saisir le nom de votre entreprise.",
     error: "Une erreur est survenue. Veuillez réessayer.",
+    storeConflict: "Cette adresse de boutique est déjà utilisée.",
+    validationError: "Veuillez vérifier les informations saisies.",
     identityError:
       "Le service d'identité n'est pas configuré. Vérifiez les paramètres VITE_KEYCLOAK dans .env.",
   },
@@ -123,15 +127,20 @@ const translations = {
 
 type Language = keyof typeof translations;
 
-async function responseData<T>(response: Response): Promise<T> {
+type ErrorMessages = Pick<
+  (typeof translations)["en"],
+  "storeConflict" | "validationError" | "error"
+>;
+
+async function responseData<T>(response: Response, messages: ErrorMessages): Promise<T> {
   if (!response.ok) {
     if (response.status === 409) {
-      throw new Error("This store address is already in use.");
+      throw new Error(messages.storeConflict);
     }
     if (response.status === 400) {
-      throw new Error("Please check the information you entered.");
+      throw new Error(messages.validationError);
     }
-    throw new Error("Something went wrong. Please try again.");
+    throw new Error(messages.error);
   }
   return response.json() as Promise<T>;
 }
@@ -155,7 +164,7 @@ export default function App() {
     setError("");
     try {
       const response = await apiFetch("/api/v1/businesses");
-      const result = await responseData<Business[]>(response);
+      const result = await responseData<Business[]>(response, t);
       setBusinesses(result);
       setSelected((current) => result.find((item) => item.id === current?.id) ?? result[0] ?? null);
     } catch {
@@ -207,7 +216,7 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: newBusinessName.trim() }),
       });
-      const created = await responseData<Business>(response);
+      const created = await responseData<Business>(response, t);
       setBusinesses((current) => [...current, created]);
       setSelected(created);
       setNewBusinessName("");
@@ -232,7 +241,7 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(profile),
       });
-      const updated = await responseData<Business>(response);
+      const updated = await responseData<Business>(response, t);
       setBusinesses((current) => current.map((item) => (item.id === updated.id ? updated : item)));
       setSelected(updated);
       setNotice(t.saved);

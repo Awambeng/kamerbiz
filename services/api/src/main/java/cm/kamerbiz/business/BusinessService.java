@@ -132,7 +132,7 @@ public class BusinessService {
   public record CreateBusinessRequest(@NotBlank @Size(max = 255) String name) {}
 
   public record UpdateBusinessRequest(
-      @Pattern(regexp = ".*\\\\S.*") @Size(max = 255) String name,
+      @Pattern(regexp = ".*\\S.*") @Size(max = 255) String name,
       @Size(max = 100) String slug,
       @Size(max = 2000) String description,
       @Size(max = 1000) String logoUrl,
