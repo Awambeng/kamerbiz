@@ -128,7 +128,7 @@ const translations = {
 type Language = keyof typeof translations;
 
 type ErrorMessages = Pick<
-  (typeof translations)["en"],
+  (typeof translations)[Language],
   "storeConflict" | "validationError" | "error"
 >;
 
@@ -280,13 +280,14 @@ export default function App() {
         </div>
       </header>
 
-      {!auth.configured ? (
+      {!auth.configured && (
         <section className="setup-card">
           <p className="eyebrow">{t.eyebrow}</p>
           <h1>{t.title}</h1>
           <p>{t.identityError}</p>
         </section>
-      ) : !auth.authenticated ? (
+      )}
+      {auth.configured && !auth.authenticated && (
         <section className="welcome-layout">
           <div className="welcome-copy">
             <p className="eyebrow">
@@ -314,7 +315,8 @@ export default function App() {
             <span className="art-spark spark-two">✦</span>
           </div>
         </section>
-      ) : (
+      )}
+      {auth.authenticated && (
         <section className="dashboard">
           <div className="dashboard-heading">
             <div>
