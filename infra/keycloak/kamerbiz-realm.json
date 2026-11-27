@@ -16,7 +16,6 @@
   "minimumQuickLoginWaitSeconds": 1000,
   "quickLoginCheckMilliSeconds": 1000,
   "maxDeltaTimeSeconds": 43200,
-  "failureResetTimeSeconds": 43200,
   "passwordPolicy": "length(12) and upperCase(1) and lowerCase(1) and digits(1)",
   "clients": [
     {
@@ -29,34 +28,15 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": false,
-      "redirectUris": ["http://localhost:5173/*"],
-      "webOrigins": ["http://localhost:5173"],
+      "redirectUris": [
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
       "attributes": {
         "pkce.code.challenge.method": "S256",
         "post.logout.redirect.uris": "http://localhost:5173/*"
-      },
-      "defaultClientScopes": ["profile", "email", "roles", "web-origins", "kamerbiz-api-audience"]
-    },
-    {
-      "clientId": "kamerbiz-api",
-      "name": "KamerBiz API",
-      "enabled": true,
-      "protocol": "openid-connect",
-      "bearerOnly": true,
-      "publicClient": false,
-      "standardFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": false
-    }
-  ],
-  "clientScopes": [
-    {
-      "name": "kamerbiz-api-audience",
-      "description": "Adds the KamerBiz API as an access token audience.",
-      "protocol": "openid-connect",
-      "attributes": {
-        "include.in.token.scope": "true",
-        "display.on.consent.screen": "false"
       },
       "protocolMappers": [
         {
@@ -72,6 +52,17 @@
           }
         }
       ]
+    },
+    {
+      "clientId": "kamerbiz-api",
+      "name": "KamerBiz API",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "bearerOnly": true,
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false
     }
   ]
 }
