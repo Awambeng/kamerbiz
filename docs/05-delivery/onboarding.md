@@ -16,7 +16,7 @@ Install Git, Node.js 22+, npm, Java 21, Maven 3.9+, and Docker Compose. Clone th
 
 ## 4. Run the system
 
-Copy the local environment template with `cp .env.example .env`. Start PostgreSQL and Keycloak with `docker compose up -d postgres keycloak`. The Keycloak container imports the KamerBiz development realm automatically. Start the API from `services/api` with `mvn spring-boot:run`. In another terminal, install and start the frontend from `apps/web` with `npm ci && npm run dev`. Open the Vite URL printed in the terminal and confirm the API responds at `http://localhost:8080/api/v1/health`.
+Copy the local environment template with `cp .env.example .env`. Start PostgreSQL and Keycloak with `docker compose up -d postgres keycloak`. The Keycloak container imports the KamerBiz development realm automatically. Spring Boot does not load the root `.env` file by itself. Start the API from `services/api`, exporting the root environment values into the shell first: `set -a; . ../../.env; set +a; mvn spring-boot:run`. The API also has local defaults in `application.yml`, but values in `.env` only override them when exported into the API process environment. In another terminal, install and start the frontend from `apps/web` with `npm ci && npm run dev`. Vite is configured to read the root `.env` file. Open the Vite URL printed in the terminal and confirm the API responds at `http://localhost:8080/api/v1/health`.
 
 The local realm supports self registration and password recovery. Email verification is disabled for local development. The local Keycloak administrator credentials are development only and must never be reused outside a local machine. Configure SMTP and enable email verification before public launch. Production requires a hardened Keycloak deployment with PostgreSQL persistence, TLS, managed secrets, backups, monitoring, and recovery testing.
 
@@ -36,7 +36,7 @@ The root `.env` file supplies local configuration. The values below are developm
 
 The imported local realm currently allows the web client redirect pattern `http://localhost:5173/*`, the web origin `http://localhost:5173`, and the matching post logout redirect. If you change the Vite port, update all of these together:
 
-1. Set `WEB_ORIGIN` in the root `.env` to the new origin.
+1. Set `WEB_ORIGIN` in the root `.env` to the new origin, then export the root `.env` values when starting the API with `set -a; . ../../.env; set +a` from `services/api`. Editing `.env` alone does not change the environment of an already running API process.
 2. Update the web client's `redirectUris`, `webOrigins`, and `post.logout.redirect.uris` in `infra/keycloak/kamerbiz-realm.json`.
 3. Keep `VITE_KEYCLOAK_URL`, `VITE_KEYCLOAK_REALM`, and `VITE_KEYCLOAK_CLIENT_ID` aligned with the Keycloak server and imported client. These usually do not change when only the web port changes.
 
