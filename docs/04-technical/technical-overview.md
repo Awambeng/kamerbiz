@@ -2,30 +2,39 @@
 
 ## Purpose
 
-This document records the proposed technical direction for the first KamerBiz release. It should be reviewed before production implementation.
+This document records the selected technical direction for the first KamerBiz release. Consequential changes must be discussed in an issue and recorded as ADRs.
 
-## Suggested starting architecture
+## Starting architecture
 
-Build one application with clear internal modules. This is simpler to develop and operate than splitting the first version into many separate services.
+KamerBiz uses a **modular monolith** for the backend and a separate web frontend. This keeps development and operations simple while preserving domain boundaries.
 
-| Area              | Suggested technology      | Why                                                    |
-| ----------------- | ------------------------- | ------------------------------------------------------ |
-| Web interface     | React and TypeScript      | Build a responsive user interface                      |
-| Styling           | Tailwind CSS              | Keep visual styles consistent                          |
-| Backend           | Java and Spring Boot      | Handle business rules and data                         |
-| Database          | PostgreSQL                | Store business, catalogue, order and financial records |
-| Database changes  | Flyway                    | Track database updates                                 |
-| Login and access  | Spring Security           | Protect accounts and actions                           |
-| File storage      | S3-compatible storage     | Store product images and private payment evidence      |
-| API description   | OpenAPI                   | Explain how the frontend uses the backend              |
-| Tests             | JUnit and Testcontainers  | Test business rules and database behaviour             |
-| Build and release | Docker and GitHub Actions | Build and check changes                                |
+| Area | Selected technology | Purpose |
+| --- | --- | --- |
+| Web interface | React, TypeScript and Vite | Responsive, mobile-first user experience |
+| Styling | CSS foundation; Tailwind can be introduced with a dedicated UI issue | Consistent and maintainable UI |
+| Backend | Java 21 and Spring Boot | Business rules and API |
+| Database | PostgreSQL | Business, catalogue, order and financial records |
+| Database changes | Flyway | Versioned schema migrations |
+| Login and access | Spring Security | Authentication and authorization |
+| File storage | S3-compatible object storage (future integration) | Product images and private payment evidence |
+| API description | OpenAPI (planned) | Document frontend/backend contract |
+| Tests | JUnit; Testcontainers planned for integration coverage | Verify business rules and database behaviour |
+| Build and checks | Maven, npm, Docker Compose and GitHub Actions | Repeatable development and CI |
 
-The final hosting provider and cost plan still need to be chosen.
+See [ADR-0001](../06-decisions/ADR-0001-modular-monolith.md) and [ADR-0002](../06-decisions/ADR-0002-application-stack.md). Hosting provider and production cost plan remain undecided.
+
+## Repository layout
+
+- `apps/web` — React + TypeScript application.
+- `services/api` — Spring Boot modular monolith.
+- `docs` — product, technical, delivery and architecture documentation.
+- `.github` — issue/PR templates, CI and dependency automation.
+
+See [project structure and module conventions](project-structure.md).
 
 ## Application modules
 
-Keep these as internal modules in a modular monolith initially:
+Keep these as internal modules in the modular monolith:
 
 - **Identity and access:** users, business memberships, roles and agent profiles.
 - **Business and store:** business settings, public store and payment instructions.
@@ -38,17 +47,15 @@ Keep these as internal modules in a modular monolith initially:
 - **Reporting:** direct and agent-attributed performance summaries.
 - **Administration and audit:** moderation, audit history and platform operations.
 
-Modules should communicate through explicit application services and domain events where useful. Do not introduce microservices, Kafka or Kubernetes for the MVP without a demonstrated need.
+Modules communicate through explicit application services and domain events where useful. Do not introduce microservices, Kafka or Kubernetes for the MVP without a demonstrated need.
 
 ## Data model and domain rules
 
 See:
-
 - [Domain model](domain-model.md)
 - [Database design](database-design.md)
 
 Important rules:
-
 - A customer can order directly from a public store without an agent referral.
 - The first release enforces one vendor per order.
 - Agent identity is global to KamerBiz and may span multiple vendors.
@@ -63,19 +70,20 @@ Every private business record must belong to a business account. The backend mus
 
 Use database constraints to prevent relationships across businesses, especially between orders and products. The agent profile is global, but vendor-owned product, order, payment and payout records remain scoped to their business.
 
-## Security basics
+## Security
 
+The initial security requirements are documented in the [security baseline](security-baseline.md). At minimum:
 - Store passwords safely using trusted security tools.
-- Use secure sessions or tokens.
 - Check access on the backend and scope vendor queries by the authorised business.
-- Keep payment evidence private.
+- Keep payment evidence private and authorize every upload/download.
 - Use hard-to-guess order tracking links and referral tokens.
-- Limit what a tracking link reveals.
 - Record important actions such as payment approval and commission changes.
 - Do not store payment PINs or bank login details.
 - Keep secrets out of source code.
 - Back up the database and test that backups can be restored.
 - Do not expose customer phone numbers, delivery addresses or payment evidence to agents by default.
+
+The current API security configuration is a development baseline, not a production-ready identity system. Authentication, tenant authorization, CSRF/session strategy, rate limiting, and production secrets must be completed before protected business features are exposed.
 
 ## Payment handling
 
@@ -90,4 +98,4 @@ Do not assume that automatic payment checks are available for every personal or 
 - Keep business rules in the backend.
 - Test important order, attribution, tenant-isolation and payment rules.
 - Make the interface usable on mobile devices.
-- Keep technical choices documented.
+- Keep technical choices documented in ADRs.
