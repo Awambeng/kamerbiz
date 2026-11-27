@@ -1,7 +1,6 @@
 name: Engineering task
 description: Track technical, documentation, security or operational work
 title: "chore: "
-labels: ["type: task", "status: backlog"]
 body:
   - type: textarea
     id: objective
