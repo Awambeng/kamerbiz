@@ -16,5 +16,19 @@ services:
       timeout: 3s
       retries: 10
     restart: unless-stopped
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8.2
+    container_name: kamerbiz-keycloak
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN:-local-admin}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-local-only-change-me}
+    ports:
+      - "127.0.0.1:8081:8080"
+    volumes:
+      - ./infra/keycloak/kamerbiz-realm.json:/opt/keycloak/data/import/kamerbiz-realm.json:ro
+      - kamerbiz-keycloak-data:/opt/keycloak/data
+    restart: unless-stopped
 volumes:
   kamerbiz-postgres-data:
+  kamerbiz-keycloak-data:

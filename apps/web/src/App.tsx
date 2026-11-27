@@ -1,4 +1,8 @@
+import { useAuth } from "./auth/KeycloakProvider";
+
 export default function App() {
+  const { configured, authenticated, loading, displayName, error, signIn, signOut } = useAuth();
+
   return (
     <main className="page-shell">
       <nav className="topbar" aria-label="Main navigation">
@@ -24,13 +28,36 @@ export default function App() {
           confidence.
         </p>
         <div className="actions">
-          <a className="primary" href="mailto:hello@kamerbiz.com">
-            Get in touch <span aria-hidden="true">↗</span>
-          </a>
+          {loading ? (
+            <span className="auth-status" role="status">
+              Connecting securely...
+            </span>
+          ) : authenticated ? (
+            <>
+              <span className="auth-status">Signed in as {displayName ?? "KamerBiz user"}</span>
+              <button className="primary" onClick={signOut}>
+                Sign out
+              </button>
+            </>
+          ) : configured ? (
+            <button className="primary" onClick={signIn}>
+              Sign in to KamerBiz
+            </button>
+          ) : (
+            <span className="auth-status">
+              Identity service is not configured. Set VITE_KEYCLOAK_URL, VITE_KEYCLOAK_REALM and
+              VITE_KEYCLOAK_CLIENT_ID in the root .env file, then restart the web app.
+            </span>
+          )}
           <a className="secondary" href="https://github.com/Awambeng/kamerbiz">
             Explore the project
           </a>
         </div>
+        {error && (
+          <p className="auth-error" role="alert">
+            {error}
+          </p>
+        )}
         <div className="trust-row">
           <span>MADE WITH LOCAL BUSINESSES IN MIND</span>
           <span className="flag" aria-label="Cameroon flag">
