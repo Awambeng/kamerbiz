@@ -44,7 +44,10 @@ export default function App() {
               Sign in to KamerBiz
             </button>
           ) : (
-            <span className="auth-status">Identity service is not configured yet.</span>
+            <span className="auth-status">
+              Identity service is not configured. Set `VITE_KEYCLOAK_URL`, `VITE_KEYCLOAK_REALM` and
+              `VITE_KEYCLOAK_CLIENT_ID` in the root `.env` file, then restart the web app.
+            </span>
           )}
           <a className="secondary" href="https://github.com/Awambeng/kamerbiz">
             Explore the project

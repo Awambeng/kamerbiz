@@ -64,5 +64,22 @@
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": false
     }
+  ],
+  "users": [
+    {
+      "username": "test-user",
+      "enabled": true,
+      "email": "test-user@kamerbiz.local",
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "TestUser123!",
+          "temporary": false
+        }
+      ]
+    }
   ]
 }

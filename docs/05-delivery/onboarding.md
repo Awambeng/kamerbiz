@@ -18,6 +18,8 @@ Install Git, Node.js 22+, npm, Java 21, Maven 3.9+, and Docker Compose. Clone th
 
 Copy the local environment template with `cp .env.example .env`. Start PostgreSQL and Keycloak with `docker compose up -d postgres keycloak`. The Keycloak container imports the KamerBiz development realm automatically. Spring Boot does not load the root `.env` file by itself. Start the API from `services/api`, exporting the root environment values into the shell first: `set -a; . ../../.env; set +a; mvn spring-boot:run`. The API also has local defaults in `application.yml`, but values in `.env` only override them when exported into the API process environment. In another terminal, install and start the frontend from `apps/web` with `npm ci && npm run dev`. Vite is configured to read the root `.env` file. Open the Vite URL printed in the terminal and confirm the API responds at `http://localhost:8080/api/v1/health`.
 
+The realm also imports a local test account: username `test-user`, password `TestUser123!`. Use this account for local sign in only; it is not a production credential. You can also register a separate local account through the Keycloak login page.
+
 The local realm supports self registration and password recovery. Email verification is disabled for local development. The local Keycloak administrator credentials are development only and must never be reused outside a local machine. Configure SMTP and enable email verification before public launch. Production requires a hardened Keycloak deployment with PostgreSQL persistence, TLS, managed secrets, backups, monitoring, and recovery testing.
 
 ## 5. Configure identity and web URLs
