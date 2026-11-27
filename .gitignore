@@ -1,0 +1,31 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Node
+node_modules/
+dist/
+coverage/
+.vite/
+
+# Java / Maven
+target/
+*.class
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Local databases and uploads
+*.db
+*.sqlite
+uploads/
