@@ -54,8 +54,9 @@ class BusinessMembershipAuthorizationServiceTest {
     when(membershipRepository.findByBusinessIdAndUserId(businessId, user.getId()))
         .thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> authorizationService.requireMembership(
-        token(), businessId, Set.of(BusinessRole.OWNER, BusinessRole.MANAGER)))
+    assertThatThrownBy(() ->
+            authorizationService.requireMembership(
+                token(), businessId, Set.of(BusinessRole.OWNER, BusinessRole.MANAGER)))
         .isInstanceOf(AccessDeniedException.class);
   }
 
@@ -71,8 +72,9 @@ class BusinessMembershipAuthorizationServiceTest {
     when(membershipRepository.findByBusinessIdAndUserId(any(UUID.class), eq(user.getId())))
         .thenAnswer(invocation -> Optional.ofNullable(memberships.get(invocation.getArgument(0))));
 
-    assertThatThrownBy(() -> authorizationService.requireMembership(
-        token(), businessB, Set.of(BusinessRole.OWNER, BusinessRole.MANAGER)))
+    assertThatThrownBy(() ->
+            authorizationService.requireMembership(
+                token(), businessB, Set.of(BusinessRole.OWNER, BusinessRole.MANAGER)))
         .isInstanceOf(AccessDeniedException.class);
   }
 
@@ -87,8 +89,9 @@ class BusinessMembershipAuthorizationServiceTest {
         .thenReturn(Optional.of(staffMembership));
     when(staffMembership.getRole()).thenReturn(BusinessRole.STAFF);
 
-    assertThatThrownBy(() -> authorizationService.requireMembership(
-        token(), businessId, Set.of(BusinessRole.OWNER, BusinessRole.MANAGER)))
+    assertThatThrownBy(() ->
+            authorizationService.requireMembership(
+                token(), businessId, Set.of(BusinessRole.OWNER, BusinessRole.MANAGER)))
         .isInstanceOf(AccessDeniedException.class);
   }
 
