@@ -1,7 +1,6 @@
 name: Feature request
 description: Propose a user or business capability
 title: "feat: "
-labels: ["type: feature", "status: backlog"]
 body:
   - type: textarea
     id: problem
