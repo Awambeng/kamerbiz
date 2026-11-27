@@ -36,6 +36,7 @@ Small businesses that sell physical products. Early groups to learn from include
 ## 7. First release boundaries
 
 The first release should focus on:
+
 - Business registration and store setup.
 - Product and category management.
 - Public storefront.
@@ -61,6 +62,7 @@ The first release should not include a full accounting system, a complex marketi
 ## 9. Success measures
 
 During the pilot, track:
+
 - Number of orders recorded in KamerBiz.
 - Time needed to process an order.
 - Number of orders with confirmed payment.

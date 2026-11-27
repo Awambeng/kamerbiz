@@ -140,13 +140,13 @@ A payout must allocate only payable commission amounts. Recording a payout must 
 
 ## 7. Suggested Flyway migration sequence
 
-1. `V1__identity_and_business.sql` — users, businesses, memberships and agent profiles.
-2. `V2__store_catalogue_and_inventory.sql` — stores, categories, products, images and inventory movements.
-3. `V3__product_promotions_and_referrals.sql` — promotion configuration, referral links and referral attribution.
-4. `V4__customers_and_orders.sql` — customers, orders, order items and order status events.
-5. `V5__payments_and_fulfilment.sql` — payment methods, submissions, reviews and fulfilment.
-6. `V6__commissions_and_vendor_payouts.sql` — commission records/events and payout records/items.
-7. `V7__audit_and_indexes.sql` — audit events, additional indexes and hardening constraints.
+1. `V1__identity_and_business.sql` - users, businesses, memberships and agent profiles.
+2. `V2__store_catalogue_and_inventory.sql` - stores, categories, products, images and inventory movements.
+3. `V3__product_promotions_and_referrals.sql` - promotion configuration, referral links and referral attribution.
+4. `V4__customers_and_orders.sql` - customers, orders, order items and order status events.
+5. `V5__payments_and_fulfilment.sql` - payment methods, submissions, reviews and fulfilment.
+6. `V6__commissions_and_vendor_payouts.sql` - commission records/events and payout records/items.
+7. `V7__audit_and_indexes.sql` - audit events, additional indexes and hardening constraints.
 
 Keep each migration small, forward-only and reviewed. Use Testcontainers to verify foreign keys, uniqueness, tenant boundaries, transaction behaviour and commission calculations against PostgreSQL.
 

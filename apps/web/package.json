@@ -1,1 +1,28 @@
-{"name":"@kamerbiz/web","private":true,"version":"0.1.0","type":"module","scripts":{"dev":"vite","build":"tsc -b && vite build","preview":"vite preview","typecheck":"tsc -b"},"dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","react":"latest","react-dom":"latest"},"devDependencies":{"typescript":"latest","@types/react":"latest","@types/react-dom":"latest"}}
+{
+  "name": "@kamerbiz/web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "format:write": "prettier --write . ../../README.md ../../CONTRIBUTING.md ../../SECURITY.md ../../docs/**/*.md ../../.github/*.md ../../.github/**/*.md ../../.github/**/*.yml ../../docker-compose.yml",
+    "format:check": "prettier --check . ../../README.md ../../CONTRIBUTING.md ../../SECURITY.md ../../docs/**/*.md ../../.github/*.md ../../.github/**/*.md ../../.github/**/*.yml ../../docker-compose.yml",
+    "markdown:check": "markdownlint-cli2 --config ../../.markdownlint-cli2.jsonc \"../../**/*.md\""
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "6.3.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "vite": "8.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.3",
+    "@types/react-dom": "19.3.0",
+    "markdownlint-cli2": "0.24.2",
+    "prettier": "3.10.1",
+    "typescript": "7.0.2"
+  }
+}

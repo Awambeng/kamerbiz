@@ -2,15 +2,11 @@
 
 ## Brand name
 
-**KamerBiz**
-
-This is the selected working name. Domain, social handle and trademark availability still need to be checked.
+KamerBiz is the selected working name. Domain, social handle and trademark availability still need to be checked.
 
 ## Main feeling
 
-**Hope**
-
-KamerBiz should help business owners feel that progress is possible and that they have practical support as they build their businesses.
+The main feeling is hope. KamerBiz should help business owners feel that progress is possible and that they have practical support as they build their businesses.
 
 ## Purpose
 

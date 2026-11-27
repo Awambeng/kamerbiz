@@ -6,7 +6,51 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>KamerBiz Monorepo</name>
+
   <modules>
     <module>services/api</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>3.11.0</version>
+        <inherited>false</inherited>
+        <configuration>
+          <java>
+            <includes>
+              <include>services/api/src/main/java/**/*.java</include>
+              <include>services/api/src/test/java/**/*.java</include>
+            </includes>
+            <googleJavaFormat>
+              <version>2.0.0</version>
+              <style>GOOGLE</style>
+              <cleanup>false</cleanup>
+            </googleJavaFormat>
+            <removeUnusedImports/>
+          </java>
+          <pom>
+            <includes>
+              <include>pom.xml</include>
+              <include>services/api/pom.xml</include>
+            </includes>
+            <sortPom>
+              <nrOfIndentSpace>2</nrOfIndentSpace>
+              <endWithNewline>true</endWithNewline>
+            </sortPom>
+          </pom>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

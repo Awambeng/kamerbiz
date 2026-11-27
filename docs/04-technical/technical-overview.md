@@ -8,27 +8,27 @@ This document records the selected technical direction for the first KamerBiz re
 
 KamerBiz uses a **modular monolith** for the backend and a separate web frontend. This keeps development and operations simple while preserving domain boundaries.
 
-| Area | Selected technology | Purpose |
-| --- | --- | --- |
-| Web interface | React, TypeScript and Vite | Responsive, mobile-first user experience |
-| Styling | CSS foundation; Tailwind can be introduced with a dedicated UI issue | Consistent and maintainable UI |
-| Backend | Java 21 and Spring Boot | Business rules and API |
-| Database | PostgreSQL | Business, catalogue, order and financial records |
-| Database changes | Flyway | Versioned schema migrations |
-| Login and access | Spring Security | Authentication and authorization |
-| File storage | S3-compatible object storage (future integration) | Product images and private payment evidence |
-| API description | OpenAPI (planned) | Document frontend/backend contract |
-| Tests | JUnit; Testcontainers planned for integration coverage | Verify business rules and database behaviour |
-| Build and checks | Maven, npm, Docker Compose and GitHub Actions | Repeatable development and CI |
+| Area             | Selected technology                                                  | Purpose                                          |
+| ---------------- | -------------------------------------------------------------------- | ------------------------------------------------ |
+| Web interface    | React, TypeScript and Vite                                           | Responsive, mobile-first user experience         |
+| Styling          | CSS foundation; Tailwind can be introduced with a dedicated UI issue | Consistent and maintainable UI                   |
+| Backend          | Java 21 and Spring Boot                                              | Business rules and API                           |
+| Database         | PostgreSQL                                                           | Business, catalogue, order and financial records |
+| Database changes | Flyway                                                               | Versioned schema migrations                      |
+| Login and access | Spring Security                                                      | Authentication and authorization                 |
+| File storage     | S3-compatible object storage (future integration)                    | Product images and private payment evidence      |
+| API description  | OpenAPI (planned)                                                    | Document frontend/backend contract               |
+| Tests            | JUnit; Testcontainers planned for integration coverage               | Verify business rules and database behaviour     |
+| Build and checks | Maven, npm, Docker Compose and GitHub Actions                        | Repeatable development and CI                    |
 
 See [ADR-0001](../06-decisions/ADR-0001-modular-monolith.md) and [ADR-0002](../06-decisions/ADR-0002-application-stack.md). Hosting provider and production cost plan remain undecided.
 
 ## Repository layout
 
-- `apps/web` — React + TypeScript application.
-- `services/api` — Spring Boot modular monolith.
-- `docs` — product, technical, delivery and architecture documentation.
-- `.github` — issue/PR templates, CI and dependency automation.
+- `apps/web` - React + TypeScript application.
+- `services/api` - Spring Boot modular monolith.
+- `docs` - product, technical, delivery and architecture documentation.
+- `.github` - issue/PR templates, CI and dependency automation.
 
 See [project structure and module conventions](project-structure.md).
 
@@ -52,10 +52,12 @@ Modules communicate through explicit application services and domain events wher
 ## Data model and domain rules
 
 See:
+
 - [Domain model](domain-model.md)
 - [Database design](database-design.md)
 
 Important rules:
+
 - A customer can order directly from a public store without an agent referral.
 - The first release enforces one vendor per order.
 - Agent identity is global to KamerBiz and may span multiple vendors.
@@ -73,6 +75,7 @@ Use database constraints to prevent relationships across businesses, especially 
 ## Security
 
 The initial security requirements are documented in the [security baseline](security-baseline.md). At minimum:
+
 - Store passwords safely using trusted security tools.
 - Check access on the backend and scope vendor queries by the authorised business.
 - Keep payment evidence private and authorize every upload/download.
