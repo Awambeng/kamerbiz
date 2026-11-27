@@ -16,10 +16,12 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+app:
   security:
-    user:
-      name: ${APP_BASIC_AUTH_USER:local}
-      password: ${APP_BASIC_AUTH_PASSWORD:local-only-change-me}
+    issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8081/realms/kamerbiz}
+    jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8081/realms/kamerbiz/protocol/openid-connect/certs}
+    audience: ${KEYCLOAK_API_AUDIENCE:kamerbiz-api}
+    allowed-origin: ${WEB_ORIGIN:http://localhost:5173}
 management:
   endpoints:
     web:

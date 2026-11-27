@@ -15,13 +15,13 @@ KamerBiz uses a **modular monolith** for the backend and a separate web frontend
 | Backend          | Java 21 and Spring Boot                                              | Business rules and API                           |
 | Database         | PostgreSQL                                                           | Business, catalogue, order and financial records |
 | Database changes | Flyway                                                               | Versioned schema migrations                      |
-| Login and access | Spring Security                                                      | Authentication and authorization                 |
+| Login and access | Keycloak, OIDC and Spring Security                                   | Authentication and API authorization             |
 | File storage     | S3-compatible object storage (future integration)                    | Product images and private payment evidence      |
 | API description  | OpenAPI (planned)                                                    | Document frontend/backend contract               |
 | Tests            | JUnit; Testcontainers planned for integration coverage               | Verify business rules and database behaviour     |
 | Build and checks | Maven, npm, Docker Compose and GitHub Actions                        | Repeatable development and CI                    |
 
-See [ADR-0001](../06-decisions/ADR-0001-modular-monolith.md) and [ADR-0002](../06-decisions/ADR-0002-application-stack.md). Hosting provider and production cost plan remain undecided.
+See [ADR-0001](../06-decisions/ADR-0001-modular-monolith.md), [ADR-0002](../06-decisions/ADR-0002-application-stack.md), and [ADR 0003](../06-decisions/ADR-0003-identity-provider.md).
 
 ## Repository layout
 
@@ -86,7 +86,7 @@ The initial security requirements are documented in the [security baseline](secu
 - Back up the database and test that backups can be restored.
 - Do not expose customer phone numbers, delivery addresses or payment evidence to agents by default.
 
-The current API security configuration is a development baseline, not a production-ready identity system. Authentication, tenant authorization, CSRF/session strategy, rate limiting, and production secrets must be completed before protected business features are exposed.
+Keycloak owns credentials and authentication sessions. Spring Security validates API access tokens. KamerBiz owns local user profiles, platform roles, business memberships, and tenant authorization. The current local Keycloak configuration is for development only. Production requires a hardened deployment, TLS, SMTP, managed secrets, backups, monitoring, and recovery testing.
 
 ## Payment handling
 

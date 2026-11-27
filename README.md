@@ -22,22 +22,23 @@ KamerBiz is building simple, accessible tools to help Cameroonian small business
 ## Repository structure
 
 - `apps/web`: React + TypeScript web experience.
-- `services/api`: Java 21 + Spring Boot modular-monolith API.
+- `services/api`: Java 21 + Spring Boot modular monolith API.
 - `docs`: product, technical, delivery and architecture documentation.
-- `.github`: issue/PR templates, ownership, dependency updates and CI.
+- `.github`: issue and PR templates, ownership, dependency updates and CI.
 
 ## Local development
 
 Prerequisites: Git, Node.js 22+, npm, Java 21, Maven 3.9+, and Docker Compose.
 
-1. Start PostgreSQL: `docker compose up -d postgres`
-2. Start the API: `cd services/api && mvn spring-boot:run`
-3. In another terminal, install and start the web app: `cd apps/web && npm ci && npm run dev`
-4. Open the Vite URL printed in the terminal. API health: `http://localhost:8080/api/v1/health`.
+1. Copy local configuration: `cp .env.example .env`.
+2. Start PostgreSQL and Keycloak: `docker compose up -d postgres keycloak`.
+3. Start the API: `cd services/api && mvn spring-boot:run`.
+4. In another terminal, install and start the web app: `cd apps/web && npm ci && npm run dev`.
+5. Open the Vite URL printed in the terminal. API health: `http://localhost:8080/api/v1/health`.
 
-Local database credentials are development-only. Never reuse them outside a local machine.
+The local Keycloak realm enables self registration and password recovery for development. Email verification is disabled locally. Configure SMTP and enable email verification before public launch. Never reuse local credentials outside a local machine.
 
-The API's current HTTP Basic authentication and default local credentials are development-only. They are not a production authentication design. Do not deploy this configuration. Production identity, authorization, tenant isolation, secret management, and TLS must be designed and implemented before launch.
+The local Keycloak container uses development mode and an embedded database. Production requires a hardened Keycloak deployment with PostgreSQL persistence, TLS, SMTP, managed secrets, backups, monitoring, and recovery testing.
 
 ## Engineering workflow
 
@@ -45,11 +46,11 @@ Every change starts with a GitHub Issue. Work moves through **Backlog → Ready 
 
 ## Security
 
-Read [SECURITY.md](SECURITY.md) and the [security baseline](docs/04-technical/security-baseline.md). Report vulnerabilities privately. Repository administrators must enable secret scanning, push protection, Dependabot security updates, and branch protection/required checks in GitHub settings; repository files alone cannot enforce all account-level controls.
+Read [SECURITY.md](SECURITY.md) and the [security baseline](docs/04-technical/security-baseline.md). Report vulnerabilities privately. Repository administrators must enable secret scanning, push protection, Dependabot security updates, and branch protection with required checks in GitHub settings.
 
 ## Product principles
 
-- Mobile-first and simple to use.
+- Mobile first and simple to use.
 - English by default, French supported.
 - Tenant data isolation is mandatory.
 - Customer payments go directly to vendors in the MVP; KamerBiz does not hold funds.

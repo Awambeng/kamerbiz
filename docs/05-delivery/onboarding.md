@@ -16,7 +16,9 @@ Install Git, Node.js 22+, npm, Java 21, Maven 3.9+, and Docker Compose. Clone th
 
 ## 4. Run the system
 
-Start PostgreSQL with `docker compose up -d postgres`. Start the API from `services/api` with `mvn spring-boot:run`. Start the frontend from `apps/web` with `npm install && npm run dev`. Confirm the API responds at `/api/v1/health`.
+Copy the local environment template with `cp .env.example .env`. Start PostgreSQL and Keycloak with `docker compose up -d postgres keycloak`. The Keycloak container imports the KamerBiz development realm automatically. Start the API from `services/api` with `mvn spring-boot:run`. In another terminal, install and start the frontend from `apps/web` with `npm ci && npm run dev`. Open the Vite URL printed in the terminal and confirm the API responds at `http://localhost:8080/api/v1/health`.
+
+The local realm supports self registration and password recovery. Email verification is disabled for local development. The local Keycloak administrator credentials are development only and must never be reused outside a local machine. Configure SMTP and enable email verification before public launch. Production requires a hardened Keycloak deployment with PostgreSQL persistence, TLS, managed secrets, backups, monitoring, and recovery testing.
 
 ## 5. Pick up work
 
