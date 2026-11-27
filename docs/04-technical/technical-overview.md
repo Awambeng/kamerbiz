@@ -53,6 +53,7 @@ Modules communicate through explicit application services and domain events wher
 
 See:
 
+- [Business onboarding](business-onboarding.md)
 - [Domain model](domain-model.md)
 - [Database design](database-design.md)
 
