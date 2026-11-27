@@ -6,7 +6,7 @@
 
 The owner sets up the store, adds products, receives orders and manages the business.
 
-**Needs**
+#### Needs
 
 - Set up a store without technical help.
 - Add and update products easily.
@@ -19,7 +19,7 @@ The owner sets up the store, adds products, receives orders and manages the busi
 
 The customer visits a store, checks products and places an order.
 
-**Needs**
+#### Needs
 
 - Understand what the business sells.
 - See clear prices and product details.
@@ -32,7 +32,7 @@ The customer visits a store, checks products and places an order.
 
 The administrator supports the platform and manages business accounts.
 
-**Needs**
+#### Needs
 
 - Review business registrations.
 - Help with account and store problems.

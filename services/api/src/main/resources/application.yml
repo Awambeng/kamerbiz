@@ -7,7 +7,7 @@ spring:
   application:
     name: kamerbiz-api
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/kamerbiz}
+    url: ${DB_URL:jdbc:postgresql://localhost:5434/kamerbiz}
     username: ${DB_USERNAME:kamerbiz}
     password: ${DB_PASSWORD:local-only-change-me}
   jpa:

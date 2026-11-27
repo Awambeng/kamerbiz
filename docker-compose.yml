@@ -1,13 +1,13 @@
 services:
   postgres:
-    image: postgres:17
+    image: postgres:17.12-bookworm@sha256:34d1113892d0a0ad0a2f646972c3b7961062cbb8e01967735310379db9c39d72
     container_name: kamerbiz-postgres
     environment:
       POSTGRES_DB: kamerbiz
       POSTGRES_USER: kamerbiz
       POSTGRES_PASSWORD: local-only-change-me
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:5434:5432"
     volumes:
       - kamerbiz-postgres-data:/var/lib/postgresql/data
     healthcheck:

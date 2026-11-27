@@ -1,9 +1,11 @@
 # Security Policy
 
 ## Reporting a vulnerability
+
 Do not report security vulnerabilities in public GitHub Issues. Contact the repository maintainers privately through GitHub's **Report a vulnerability** feature (Security tab), where available. Include affected versions/commit, impact, reproduction steps, and any suggested mitigation. Do not include real customer data or secrets.
 
 ## Security expectations
+
 - Never commit credentials, tokens, private keys, production data, or payment evidence.
 - Use environment variables or a managed secret store; commit only safe examples such as `.env.example`.
 - Validate and normalize untrusted input on the server.
