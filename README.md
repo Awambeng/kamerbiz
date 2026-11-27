@@ -1,45 +1,46 @@
 # KamerBiz
 
-**Simple tools for Cameroonian businesses to sell, manage and grow.**
+**Stronger businesses. A stronger Cameroon.**
 
-KamerBiz is a project to build an easy-to-use platform that helps small businesses in Cameroon organise their work and serve customers better.
-
-The project is still in its planning and validation stage. Some ideas in these documents are proposals that must be checked with business owners before they become final decisions.
-
-## Start here
-
-1. [Project overview](docs/01-project/project-overview.md)
-2. [Project goals and boundaries](docs/01-project/project-charter.md)
-3. [Product overview](docs/02-product/product-overview.md)
-4. [First release scope](docs/02-product/mvp-scope.md)
-5. [Brand direction](docs/03-brand/brand-direction.md)
-6. [Technical overview](docs/04-technical/technical-overview.md)
-7. [Project roadmap](docs/05-delivery/roadmap.md)
-
-## Documentation map
-
-| Folder              | What it contains                                        |
-| ------------------- | ------------------------------------------------------- |
-| `docs/01-project`   | Why we are building KamerBiz and how decisions are made |
-| `docs/02-product`   | Users, product goals, features and first release        |
-| `docs/03-brand`     | Brand message and visual direction                      |
-| `docs/04-technical` | Proposed system design and technical rules              |
-| `docs/05-delivery`  | Roadmap, research plan and work tracking                |
-| `docs/06-decisions` | Important decisions and their status                    |
-
-## Important project rules
-
-- Keep the first release small and useful.
-- Talk to real business owners before treating an idea as a fact.
-- Use clear language in the product and in project documents.
-- Design for mobile phones first.
-- Support English and French.
-- Protect each business's data from other businesses.
-- Do not mark a payment as successful based only on a screenshot.
-- Record important decisions so the team does not keep changing direction.
+KamerBiz is building simple, accessible tools to help Cameroonian small businesses sell, manage and grow. The first release focuses on businesses selling physical products. English is the default product language, with French support.
 
 ## Project status
+**Stage:** Foundation implementation. Product discovery and MVP decisions are documented; the application foundation is being established.
 
-**Current stage:** Discovery and product definition.
+## Start here
+1. [Project overview](docs/01-project/project-overview.md)
+2. [MVP scope](docs/02-product/mvp-scope.md)
+3. [Key workflows](docs/02-product/key-workflows.md)
+4. [Technical overview](docs/04-technical/technical-overview.md)
+5. [Development workflow](docs/05-delivery/development-workflow.md)
+6. [Security baseline](docs/04-technical/security-baseline.md)
+7. [Contributing and onboarding](CONTRIBUTING.md)
+8. [Architecture Decision Records](docs/06-decisions/README.md)
 
-The name KamerBiz and the emotional direction of hope have been selected as the working brand direction. The name, domain and trademark availability have not yet been checked.
+## Repository structure
+- `apps/web` — React + TypeScript web experience.
+- `services/api` — Java 21 + Spring Boot modular-monolith API.
+- `docs` — product, technical, delivery and architecture documentation.
+- `.github` — issue/PR templates, ownership, dependency updates and CI.
+
+## Local development
+Prerequisites: Git, Node.js 22+, npm, Java 21, Maven 3.9+, and Docker Compose.
+1. Start PostgreSQL: `docker compose up -d postgres`
+2. Start the API: `cd services/api && mvn spring-boot:run`
+3. In another terminal, install and start the web app: `cd apps/web && npm install && npm run dev`
+4. Open the Vite URL printed in the terminal. API health: `http://localhost:8080/api/v1/health`.
+
+Local database credentials are development-only. Never reuse them outside a local machine.
+
+## Engineering workflow
+Every change starts with a GitHub Issue. Work moves through **Backlog → Ready → In Progress → Review → Done**. Implement on an issue branch and merge through a reviewed PR. An issue is Done only after merge and acceptance criteria are met. See [development workflow](docs/05-delivery/development-workflow.md).
+
+## Security
+Read [SECURITY.md](SECURITY.md) and the [security baseline](docs/04-technical/security-baseline.md). Report vulnerabilities privately. Repository administrators must enable secret scanning, push protection, Dependabot security updates, and branch protection/required checks in GitHub settings; repository files alone cannot enforce all account-level controls.
+
+## Product principles
+- Mobile-first and simple to use.
+- English by default, French supported.
+- Tenant data isolation is mandatory.
+- Customer payments go directly to vendors in the MVP; KamerBiz does not hold funds.
+- A payment screenshot is evidence to review, not proof of payment.
