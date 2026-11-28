@@ -16,7 +16,18 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 105MB
 app:
+  storage:
+    endpoint: ${S3_ENDPOINT:http://localhost:9000}
+    region: ${S3_REGION:us-east-1}
+    access-key: ${S3_ACCESS_KEY:minioadmin}
+    secret-key: ${S3_SECRET_KEY:minioadmin}
+    bucket: ${S3_BUCKET:kamerbiz-products}
+    public-base-url: ${S3_PUBLIC_BASE_URL:http://localhost:9000/kamerbiz-products}
   security:
     issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8081/realms/kamerbiz}
     jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8081/realms/kamerbiz/protocol/openid-connect/certs}

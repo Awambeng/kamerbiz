@@ -31,10 +31,12 @@ KamerBiz is building simple, accessible tools to help Cameroonian small business
 Prerequisites: Git, Node.js 22+, npm, Java 21, Maven 3.9+, and Docker Compose.
 
 1. Copy local configuration: `cp .env.example .env`.
-2. Start PostgreSQL and Keycloak: `docker compose up -d postgres keycloak`.
+2. Start PostgreSQL, Keycloak, and local object storage: `docker compose up -d postgres keycloak minio minio-init`.
 3. Start the API: `cd services/api && mvn spring-boot:run`.
 4. In another terminal, install and start the web app: `cd apps/web && npm ci && npm run dev`.
 5. Open the Vite URL printed in the terminal. API health: `http://localhost:8080/api/v1/health`.
+
+Product images use the local MinIO S3 compatible service. The bucket is created automatically and product images are publicly readable for storefront display. Production must use a managed S3 compatible bucket and configure its public read policy or CDN URL through the S3 environment variables.
 
 The local Keycloak realm enables self registration and password recovery for development. Email verification is disabled locally. Configure SMTP and enable email verification before public launch. Never reuse local credentials outside a local machine.
 
