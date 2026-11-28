@@ -40,7 +40,7 @@ class ProductImageStorageIntegrationTest {
   @Container
   static final GenericContainer<?> MINIO =
       new GenericContainer<>(
-              DockerImageName.parse("docker.io/pgsty/silo:RELEASE.2026-11-12T00-00-00Z"))
+              DockerImageName.parse("docker.io/minio/minio:RELEASE.2025-09-07T16-13-09Z"))
           .withCommand("server", "/data")
           .withEnv("MINIO_ROOT_USER", "kamerbiz-test")
           .withEnv("MINIO_ROOT_PASSWORD", "kamerbiz-test-secret")

@@ -99,6 +99,9 @@ const words = {
     downloadErrors: "Download error report",
     created: "created",
     skipped: "skipped",
+    edit: "Edit",
+    template: "CSV template",
+    units: "units",
   },
   fr: {
     title: "Produits",
@@ -137,6 +140,9 @@ const words = {
     downloadErrors: "Télécharger le rapport d'erreurs",
     created: "créés",
     skipped: "ignorés",
+    edit: "Modifier",
+    template: "Modèle CSV",
+    units: "unités",
   },
 } as const;
 
@@ -426,7 +432,7 @@ export default function ProductPage({ businessId, role, language }: Props) {
         </div>
         {canEdit && (
           <button className="subtle-button" onClick={downloadTemplate}>
-            ↓ CSV template
+            ↓ {t.template}
           </button>
         )}
       </div>
@@ -512,7 +518,7 @@ export default function ProductPage({ businessId, role, language }: Props) {
       {formOpen && canEdit && (
         <form className="product-form" onSubmit={save}>
           <div className="product-form-heading">
-            <h3>{editing ? t.name : t.add}</h3>
+            <h3>{editing ? t.edit : t.add}</h3>
             <button
               type="button"
               className="subtle-button"
@@ -634,11 +640,13 @@ export default function ProductPage({ businessId, role, language }: Props) {
                   <strong>
                     {product.price.toLocaleString(language === "fr" ? "fr-FR" : "en-US")} FCFA
                   </strong>
-                  <span>{product.stockQuantity} units</span>
+                  <span>
+                    {product.stockQuantity} {t.units}
+                  </span>
                 </div>
                 {canEdit && (
                   <div className="product-card-actions">
-                    <button onClick={() => edit(product)}>{t.name}</button>
+                    <button onClick={() => edit(product)}>{t.edit}</button>
                     <button onClick={() => void toggleArchive(product)}>
                       {product.archived ? t.restore : t.archive}
                     </button>

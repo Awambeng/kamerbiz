@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -31,6 +32,7 @@ public class ProductService {
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
   private static final Set<BusinessRole> VIEWERS = Set.of(BusinessRole.values());
   private static final Set<BusinessRole> EDITORS = Set.of(BusinessRole.OWNER, BusinessRole.MANAGER);
+  private static final BigDecimal MAX_PRICE = new BigDecimal("999999999999.99");
 
   private final ProductRepository products;
   private final ProductImportBatchRepository importBatches;
@@ -108,6 +110,12 @@ public class ProductService {
               "Name, positive price and nonnegative stock are required.");
         }
         String code = normalizeCode(optionalCell(row, columns, "product_code"));
+        validateImportFields(
+            name,
+            optionalCell(row, columns, "description"),
+            optionalCell(row, columns, "category"),
+            price,
+            code);
         imageFilename(row, columns);
         rejectExternalImageUrl(row, columns);
         if (!code.isBlank()
@@ -180,7 +188,7 @@ public class ProductService {
       Product product = null;
       String rowError = null;
       try {
-        String name = cell(row, columns, "name");
+        String name = cell(row, columns, "name").trim();
         BigDecimal price = new BigDecimal(cell(row, columns, "price"));
         String stockValue = optionalCell(row, columns, "stock_quantity");
         int stock = stockValue.isBlank() ? 0 : Integer.parseInt(stockValue);
@@ -190,6 +198,12 @@ public class ProductService {
         }
 
         String code = normalizeCode(optionalCell(row, columns, "product_code"));
+        validateImportFields(
+            name,
+            optionalCell(row, columns, "description"),
+            optionalCell(row, columns, "category"),
+            price,
+            code);
         code = code.isBlank() ? generatedCode() : code;
         if (!codesInFile.add(code) || products.existsByBusinessIdAndProductCode(businessId, code)) {
           throw new IllegalArgumentException("Product code already exists.");
@@ -249,17 +263,22 @@ public class ProductService {
     if (products.existsByBusinessIdAndProductCode(businessId, code)) {
       throw new ResponseStatusException(HttpStatus.CONFLICT, "Product code already exists.");
     }
-    Product product =
-        products.save(
-            new Product(
-                businessId,
-                code,
-                request.name().trim(),
-                clean(request.description()),
-                clean(request.category()),
-                request.price(),
-                request.stockQuantity(),
-                clean(request.imageUrl())));
+    Product product;
+    try {
+      product =
+          products.saveAndFlush(
+              new Product(
+                  businessId,
+                  code,
+                  request.name().trim(),
+                  clean(request.description()),
+                  clean(request.category()),
+                  request.price(),
+                  request.stockQuantity(),
+                  clean(request.imageUrl())));
+    } catch (DataIntegrityViolationException exception) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Product code already exists.");
+    }
     return ProductResponse.from(product);
   }
 
@@ -327,8 +346,37 @@ public class ProductService {
     if (request.price() == null || request.price().compareTo(BigDecimal.ZERO) <= 0) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price must be greater than zero.");
     }
+    if (request.price().stripTrailingZeros().scale() > 2) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Price must have at most 2 decimal places.");
+    }
+    if (request.price().compareTo(MAX_PRICE) > 0) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price is too large.");
+    }
     if (request.stockQuantity() < 0) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock cannot be negative.");
+    }
+  }
+
+  private void validateImportFields(
+      String name, String description, String category, BigDecimal price, String code) {
+    if (name.length() > 255) {
+      throw new IllegalArgumentException("Name must be 255 characters or fewer.");
+    }
+    if (description.length() > 2000) {
+      throw new IllegalArgumentException("Description must be 2000 characters or fewer.");
+    }
+    if (category.length() > 120) {
+      throw new IllegalArgumentException("Category must be 120 characters or fewer.");
+    }
+    if (code.length() > 64) {
+      throw new IllegalArgumentException("Product code must be 64 characters or fewer.");
+    }
+    if (price.stripTrailingZeros().scale() > 2) {
+      throw new IllegalArgumentException("Price must have at most 2 decimal places.");
+    }
+    if (price.compareTo(MAX_PRICE) > 0) {
+      throw new IllegalArgumentException("Price is too large.");
     }
   }
 

@@ -408,6 +408,7 @@ export default function App() {
                     </div>
                     {activeSection === "products" ? (
                       <ProductPage
+                        key={selected.id}
                         businessId={selected.id}
                         role={selected.role}
                         language={language}

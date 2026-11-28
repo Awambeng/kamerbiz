@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,7 +39,8 @@ class ProductServiceTest {
 
   @Test
   void generatesProductCodeWhenVendorDoesNotProvideOne() {
-    when(repository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
+    when(repository.saveAndFlush(any(Product.class)))
+        .thenAnswer(invocation -> invocation.getArgument(0));
     var response =
         service.create(
             jwt(),
@@ -164,6 +166,35 @@ class ProductServiceTest {
 
     assertThat(preview.validRows()).isZero();
     assertThat(preview.rejectedRows()).isEqualTo(1);
+  }
+
+  @Test
+  void reportsConflictWhenProductCodeCollidesDuringFlush() {
+    when(repository.saveAndFlush(any(Product.class)))
+        .thenThrow(new DataIntegrityViolationException("duplicate key"));
+
+    assertThatThrownBy(() ->
+            service.create(
+                jwt(),
+                businessId,
+                new ProductService.ProductRequest(
+                    "JEAN-3", "Blue Jeans", null, null, new BigDecimal("12000"), 5, null)))
+        .isInstanceOf(ResponseStatusException.class)
+        .extracting("statusCode")
+        .isEqualTo(HttpStatus.CONFLICT);
+  }
+
+  @Test
+  void rejectsCsvRowsThatExceedDatabaseLimits() {
+    var preview =
+        service.previewCsv(
+            jwt(), businessId, "name,price\n" + "x".repeat(300) + ",12000\nBlue Jeans,0.001\n");
+
+    assertThat(preview.validRows()).isZero();
+    assertThat(preview.rejectedRows()).isEqualTo(2);
+    assertThat(preview.errors())
+        .anyMatch(error -> error.contains("255"))
+        .anyMatch(error -> error.contains("2 decimal places"));
   }
 
   private Jwt jwt() {

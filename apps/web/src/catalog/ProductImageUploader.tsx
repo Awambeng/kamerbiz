@@ -22,7 +22,8 @@ const words = {
     matched: "photos ready to match",
     unmatched: "Not matched",
     ambiguous: "Ambiguous match",
-    failed: "Some photos could not be uploaded or matched.",
+    failed: "Some photos could not be uploaded or matched:",
+    assigned: "photos assigned",
     invalid: "Select up to 20 JPEG, PNG or WebP photos, each no larger than 5 MB.",
   },
   fr: {
@@ -33,7 +34,8 @@ const words = {
     matched: "photos prêtes à associer",
     unmatched: "Non associée",
     ambiguous: "Association ambiguë",
-    failed: "Certaines photos n'ont pas pu être importées ou associées.",
+    failed: "Certaines photos n'ont pas pu être importées ou associées :",
+    assigned: "photos associées",
     invalid: "20 photos maximum, JPEG, PNG ou WebP, 5 Mo chacune.",
   },
 } as const;
@@ -80,8 +82,8 @@ export default function ProductImageUploader({
         unmatched: matches.filter((match) => !match.product).map((match) => match.file.name),
       });
       await onAssigned();
-      setMessage(`${result.assignedCount} ${t.matched}`);
-      if (result.failed.length) setError(`${t.unmatched}: ${result.failed.join(", ")}`);
+      setMessage(`${result.assignedCount} ${t.assigned}`);
+      if (result.failed.length) setError(`${t.failed} ${result.failed.join(", ")}`);
       setFiles([]);
     } catch {
       setError(t.failed);
