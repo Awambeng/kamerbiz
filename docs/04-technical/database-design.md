@@ -1,6 +1,6 @@
 # KamerBiz database design
 
-**Status:** Proposed logical schema; not yet a physical migration or implementation contract  
+**Status:** Logical target model. Section 2 documents the physical MVP schema currently created by Flyway.  
 **Recommended database:** PostgreSQL  
 **Migration tool:** Flyway
 
@@ -18,7 +18,46 @@ This document translates the domain model into a practical first-release databas
 - Use soft archival for catalogue/business records where historical orders may still reference them; do not cascade-delete financial history.
 - Add `business_id` to vendor-owned records and index it as the leading column for tenant-scoped access patterns.
 
-## 2. Proposed tables
+## 2. Current physical MVP schema
+
+The following tables and columns reflect the current implementation. The proposed target model in section 3 is broader and includes planned agent, payment, fulfilment and commission capabilities.
+
+| Implemented table     | Current responsibility                   | Important details                                                                                                                          |
+| --------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `user_account`        | Global identity profile                  | Identity issuer and subject, email, display name and verification state.                                                                   |
+| `business_account`    | Business tenant and public store profile | Business name, unique slug, description, logo, contact details, address, city and region. There is no separate physical `store` table yet. |
+| `business_membership` | Vendor team access                       | Business, user and role with a unique business and user pair.                                                                              |
+| `product`             | Business catalogue                       | Business scoped product code, name, description, category, price, stock, image URL and archive flag.                                       |
+| `customer_order`      | Guest order and tracking                 | Business, reference, tracking token hash, customer and delivery snapshots, order and fulfilment statuses, total and timestamps.            |
+| `customer_order_item` | Order line snapshots                     | Product reference, product name, unit price, quantity and line total.                                                                      |
+| `order_status_event`  | Order audit history                      | Business and order, event type, old status, new status, optional actor user and creation timestamp.                                        |
+
+Implementation details:
+
+- Flyway V3 adds the public slug and store profile fields directly to `business_account`. A separate `store` table and a `published` flag are not implemented. A store is currently resolved by its business slug, and the public catalogue includes non archived products.
+- Product prices are stored as `NUMERIC(14,2)`. Order totals, order item unit prices and line totals use `NUMERIC(18,2)` so the maximum supported cart can be represented without overflow.
+- Order tracking tokens are generated as high entropy random values. Only their SHA 256 hexadecimal hashes are stored in `customer_order.tracking_token_hash`. The raw token is returned in the private tracking URL and is not stored.
+- The unique constraint on `tracking_token_hash` already creates its lookup index. There is no additional tracking index.
+- An order belongs to exactly one business. Customer contact and fulfilment details are stored as order snapshots. Customer accounts are not required.
+- `order_status_event` records order creation, vendor acceptance or rejection, and fulfilment transitions. Guest checkout creation has no actor user. Vendor initiated transitions store the authenticated member.
+- The current order schema does not include payment submissions, payment evidence, currency columns, agent attribution or commission records. Those remain future capabilities.
+- Current amounts are presented as FCFA. Multi currency support is not implemented.
+- Public storefront and checkout errors use a JSON response with `status`, `error` and `message`. Unknown stores or tracking tokens return 404, invalid checkout input returns 400, and stock conflicts return 409. These errors are handled at the public controller boundary and do not expose an OAuth2 bearer challenge.
+- The existing `NUMERIC(14,2)` product price supports the configured maximum of `999999999999.99`. The `NUMERIC(18,2)` order total and line amount columns support the full allowed cart of 50 distinct lines with up to 100 units each at that maximum price.
+
+Applied Flyway migrations:
+
+1. `V1__initial_schema.sql` - initial database schema.
+2. `V2__identity_and_business_memberships.sql` - user accounts, platform roles, business accounts and memberships.
+3. `V3__business_profile_and_store_slug.sql` - business profile, contact and public slug fields.
+4. `V4__product_catalog.sql` - product catalogue.
+5. `V5__product_import_batches.sql` - product import batch tracking.
+6. `V6__product_image_filename.sql` - product image filename mapping.
+7. `V7__product_image_cleanup.sql` - durable product image cleanup.
+8. `V8__customer_orders.sql` - guest orders and order items.
+9. `V9__order_status_events.sql` - order and fulfilment audit history.
+
+## 3. Proposed target tables
 
 ### Identity and access
 
@@ -80,7 +119,7 @@ This document translates the domain model into a practical first-release databas
 | ------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `audit_event` | `id`, nullable `business_id`, nullable `actor_user_id`, `event_type`, `entity_type`, `entity_id`, `metadata`, timestamp | Do not put secrets, PINs, full payment evidence or unnecessary personal data in metadata. Restrict access. |
 
-## 3. Critical constraints and indexes
+## 4. Critical constraints and indexes
 
 Implement these in the database where possible, in addition to backend validation:
 
@@ -99,7 +138,7 @@ Implement these in the database where possible, in addition to backend validatio
 
 Use transactions when creating an order and its order items, attaching attribution, decrementing/reserving stock, recording payment reviews, and allocating commission payouts.
 
-## 4. Attribution and order creation transaction
+## 5. Attribution and order creation transaction
 
 At checkout, the backend should:
 
@@ -114,7 +153,7 @@ At checkout, the backend should:
 
 Do not accept `agent_id`, commission rate or vendor identity from the browser as authoritative checkout input.
 
-## 5. Commission calculation and settlement
+## 6. Commission calculation and settlement
 
 The first-release calculation service should accept an immutable input snapshot and return a deterministic amount. Do not spread commission calculations across controllers or frontend code.
 
@@ -128,7 +167,7 @@ Before implementation, agree:
 
 A payout must allocate only payable commission amounts. Recording a payout must be transactional and idempotent so retries do not double-settle the same amount.
 
-## 6. Data access and tenant isolation
+## 7. Data access and tenant isolation
 
 - Every vendor API query must include the authorised `business_id` in the repository/service query.
 - Never load an order by ID alone and then assume the user may access it.
@@ -138,18 +177,14 @@ A payout must allocate only payable commission amounts. Recording a payout must 
 - Public storefront APIs expose only published store and active public product fields.
 - Consider PostgreSQL Row-Level Security as defence in depth, but do not treat it as a substitute for correct application authorization.
 
-## 7. Suggested Flyway migration sequence
+## 8. Future migration planning
 
-1. `V1__identity_and_business.sql` - users, businesses, memberships and agent profiles.
-2. `V2__store_catalogue_and_inventory.sql` - stores, categories, products, images and inventory movements.
-3. `V3__product_promotions_and_referrals.sql` - promotion configuration, referral links and referral attribution.
-4. `V4__customers_and_orders.sql` - customers, orders, order items and order status events.
-5. `V5__payments_and_fulfilment.sql` - payment methods, submissions, reviews and fulfilment.
-6. `V6__commissions_and_vendor_payouts.sql` - commission records/events and payout records/items.
-7. `V7__audit_and_indexes.sql` - audit events, additional indexes and hardening constraints.
+The implemented migrations are listed in section 2. Future migrations should introduce the remaining target model in small, forward only steps, without rewriting or renumbering migrations that have already been applied.
 
-Keep each migration small, forward-only and reviewed. Use Testcontainers to verify foreign keys, uniqueness, tenant boundaries, transaction behaviour and commission calculations against PostgreSQL.
+Likely future areas include separate store publication settings, customer records, payment methods and submissions, explicit fulfilment records, referral links and attribution, agent commissions, vendor payouts and broader audit events. Add each only when its workflow is being implemented.
 
-## 8. Not decided by this schema
+Keep each migration small and reviewed. Use Testcontainers to verify foreign keys, uniqueness, tenant boundaries, transaction behaviour and commission calculations against PostgreSQL.
+
+## 9. Not decided by this schema
 
 This logical model deliberately does not settle product policy for cross-device attribution, attribution extending from one product to other products from the same vendor, commission basis, partial returns, payout thresholds or the full identity-verification policy. Track these in `docs/06-decisions/open-questions.md` before implementing the relevant behaviour.

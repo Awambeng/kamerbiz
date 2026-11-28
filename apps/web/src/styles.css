@@ -707,3 +707,212 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* KamerBiz visual system refresh */
+:root {
+  --kb-forest: #173d32;
+  --kb-forest-deep: #102f28;
+  --kb-gold: #e5b94f;
+  --kb-ivory: #f7f5ef;
+  --kb-coral: #e4775c;
+  --kb-ink: #203a32;
+  --kb-muted: #718078;
+  --kb-border: #e8e6dd;
+  --kb-surface: #fffefa;
+  color: var(--kb-ink);
+  background: var(--kb-ivory);
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(229, 185, 79, 0.1), transparent 34rem), var(--kb-ivory);
+}
+
+.workspace-shell {
+  padding-inline: clamp(18px, 5vw, 76px);
+}
+
+.workspace-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  min-height: 68px;
+  margin-inline: calc(clamp(18px, 5vw, 76px) * -1);
+  padding-inline: clamp(18px, 5vw, 76px);
+  border-bottom: 1px solid rgba(232, 230, 221, 0.78);
+  background: rgba(247, 245, 239, 0.88);
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  color: var(--kb-forest);
+  font-size: 20px;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  color: #fff9e8;
+  background: var(--kb-forest);
+  box-shadow: 0 5px 14px rgba(23, 61, 50, 0.18);
+}
+
+.language-switch {
+  border-color: #dedbd0;
+  border-radius: 999px;
+  background: rgba(255, 254, 250, 0.78);
+}
+
+.language-switch button {
+  min-width: 34px;
+  border-radius: 999px;
+}
+
+.language-switch button.active {
+  color: var(--kb-forest);
+  background: var(--kb-gold);
+}
+
+.primary-button {
+  min-height: 48px;
+  border-radius: 12px;
+  color: #fffdf6;
+  background: var(--kb-forest);
+  box-shadow: 0 7px 18px rgba(23, 61, 50, 0.14);
+}
+
+.primary-button:hover {
+  color: #fffdf6;
+  background: var(--kb-forest-deep);
+  box-shadow: 0 10px 22px rgba(23, 61, 50, 0.2);
+}
+
+.welcome-art {
+  background:
+    radial-gradient(circle at 78% 20%, rgba(229, 185, 79, 0.52), transparent 26%),
+    radial-gradient(circle at 22% 82%, rgba(228, 119, 92, 0.16), transparent 28%), #e9eee5;
+}
+
+.art-mark {
+  color: #fffdf6;
+  background: var(--kb-forest);
+}
+
+.art-spark {
+  color: #b88922;
+}
+
+.eyebrow {
+  color: #8a6a20;
+}
+
+.pulse {
+  background: var(--kb-coral);
+  box-shadow: 0 0 0 5px rgba(228, 119, 92, 0.13);
+}
+
+.business-sidebar,
+.profile-panel {
+  border-color: var(--kb-border);
+  border-radius: 20px;
+  background: var(--kb-surface);
+  box-shadow: 0 12px 36px rgba(38, 48, 37, 0.055);
+}
+
+.business-option {
+  border-radius: 12px;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.business-option:hover {
+  border-color: #e9dfc2;
+  background: #fbf8ee;
+  transform: translateX(2px);
+}
+
+.business-option.selected {
+  border-color: rgba(229, 185, 79, 0.52);
+  background: #fbf6e8;
+}
+
+.business-avatar,
+.avatar {
+  color: var(--kb-forest);
+  background: #f3e8c8;
+}
+
+.create-card,
+.profile-form,
+.product-import,
+.product-card,
+.product-form {
+  border-radius: 14px;
+}
+
+input,
+textarea,
+select {
+  border-color: #deded4;
+  border-radius: 10px;
+  background: #fffefa;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #b78c2e;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(229, 185, 79, 0.2);
+}
+
+.product-tabs button.active {
+  color: var(--kb-forest);
+  border-color: var(--kb-gold);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(229, 185, 79, 0.72);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .business-sidebar,
+  .profile-panel {
+    animation: rise 420ms ease-out both;
+  }
+}
+
+@media (max-width: 680px) {
+  .workspace-header {
+    min-height: 60px;
+  }
+
+  .header-actions {
+    gap: 12px;
+  }
+
+  .dashboard {
+    margin-top: 32px;
+  }
+}
+
+.store-link {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  margin: -4px 0 14px;
+  color: var(--kb-forest);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--kb-gold);
+  text-underline-offset: 4px;
+}

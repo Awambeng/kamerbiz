@@ -1,0 +1,176 @@
+.orders-page {
+  animation: rise 0.3s ease-out both;
+}
+
+.orders-page > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 24px;
+}
+
+.orders-page h2 {
+  margin: 6px 0;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+}
+
+.orders-page > header p:not(.eyebrow) {
+  margin: 0;
+  color: #718078;
+  font-size: 13px;
+}
+
+.orders-count {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #f3e8c8;
+  color: #173d32;
+  font-weight: 800;
+}
+
+.orders-list {
+  display: grid;
+  gap: 14px;
+}
+
+.vendor-order {
+  padding: 20px;
+  border: 1px solid #e8e6dd;
+  border-radius: 16px;
+  background: #fffefa;
+}
+
+.vendor-order-heading,
+.vendor-order-customer,
+.vendor-order-items > div,
+.vendor-order-total,
+.vendor-order footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vendor-order-heading > div {
+  display: grid;
+  gap: 5px;
+}
+
+.vendor-order-heading small {
+  color: #89938b;
+  font-size: 11px;
+}
+
+.order-status {
+  padding: 6px 10px;
+  border-radius: 30px;
+  background: #f3e8c8;
+  color: #76591c;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.status-accepted {
+  background: #e5f0e6;
+  color: #285b3b;
+}
+
+.status-rejected {
+  background: #fae9e5;
+  color: #a44d3d;
+}
+
+.vendor-order-customer {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 18px 0 8px;
+  font-size: 12px;
+}
+
+.vendor-order-customer a {
+  color: #8a6a20;
+}
+
+.vendor-order-customer span {
+  margin-left: auto;
+  color: #718078;
+}
+
+.vendor-order-address,
+.vendor-order-note {
+  color: #718078;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.vendor-order-items {
+  padding: 12px 0;
+  border-top: 1px solid #eeeae0;
+}
+
+.vendor-order-items > div {
+  padding: 5px 0;
+  color: #536b60;
+  font-size: 12px;
+}
+
+.vendor-order-total {
+  padding: 12px 0;
+  border-top: 1px solid #eeeae0;
+  color: #173d32;
+}
+
+.vendor-order footer {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.vendor-order footer button {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: #173d32;
+  color: #fffdf6;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.vendor-order footer .order-reject {
+  border: 1px solid #eadbd5;
+  background: #fff;
+  color: #a44d3d;
+}
+
+.vendor-order footer select {
+  max-width: 100%;
+  padding: 10px;
+  border: 1px solid #deded4;
+  border-radius: 9px;
+  background: #fffefa;
+}
+
+.orders-empty {
+  padding: 50px 10px;
+  text-align: center;
+  color: #89938b;
+  font-size: 13px;
+}
+
+.orders-error {
+  color: #a44d3d;
+  font-size: 12px;
+}
+
+@media (max-width: 520px) {
+  .vendor-order {
+    padding: 15px;
+  }
+  .vendor-order-customer span {
+    margin-left: 0;
+  }
+}

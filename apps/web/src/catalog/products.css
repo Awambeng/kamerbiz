@@ -342,3 +342,56 @@
     align-self: flex-start;
   }
 }
+
+/* Shared KamerBiz catalogue styling */
+.products-heading h2 {
+  color: #173d32;
+}
+
+.product-tabs {
+  border-color: #e8e6dd;
+  border-radius: 999px;
+  background: #f7f5ef;
+}
+
+.product-tabs button {
+  border-radius: 999px;
+}
+
+.product-tabs button.active {
+  color: #173d32;
+  background: #e5b94f;
+}
+
+.product-form {
+  border-color: #eadfbe;
+  border-radius: 16px;
+  background: #fbf8ee;
+}
+
+.product-card {
+  border-color: #e8e6dd;
+  border-radius: 16px;
+  background: #fffefa;
+}
+
+.product-image {
+  background: linear-gradient(135deg, #f3e8c8, #e9eee5);
+  color: #8a6a20;
+}
+
+.stock-pill {
+  color: #285b3b;
+  background: #e5f0e6;
+}
+
+.product-card-actions button,
+.subtle-button {
+  border-radius: 9px;
+}
+
+.product-import {
+  border-color: #e5c66e;
+  border-radius: 14px;
+  background: #fbf8ee;
+}
