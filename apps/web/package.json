@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "test": "node --test src/catalog/*.test.mjs",
+    "build": "npm test && tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "format:write": "prettier --write . ../../README.md ../../CONTRIBUTING.md ../../SECURITY.md ../../docs/**/*.md ../../.github/*.md ../../.github/**/*.md ../../.github/**/*.yml ../../docker-compose.yml",

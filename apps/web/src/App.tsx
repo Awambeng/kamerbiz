@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { useAuth } from "./auth/KeycloakProvider";
 import { useApi } from "./auth/api";
+import ProductPage from "./catalog/ProductPage";
 
 type Business = {
   id: string;
@@ -158,6 +159,7 @@ export default function App() {
   const [loadingBusinesses, setLoadingBusinesses] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [activeSection, setActiveSection] = useState<"profile" | "products">("profile");
 
   const loadBusinesses = useCallback(async () => {
     setLoadingBusinesses(true);
@@ -390,117 +392,141 @@ export default function App() {
               <div className="profile-panel">
                 {selected ? (
                   <>
-                    <div className="profile-heading">
-                      <div>
-                        <p className="eyebrow">{t.profile}</p>
-                        <h2>{selected.name}</h2>
-                      </div>
-                      <span className="role-pill">
-                        {t[selected.role.toLowerCase() as "owner" | "manager" | "staff"]}
-                      </span>
+                    <div className="product-tabs dashboard-tabs">
+                      <button
+                        className={activeSection === "profile" ? "active" : ""}
+                        onClick={() => setActiveSection("profile")}
+                      >
+                        {t.profile}
+                      </button>
+                      <button
+                        className={activeSection === "products" ? "active" : ""}
+                        onClick={() => setActiveSection("products")}
+                      >
+                        {language === "fr" ? "Produits" : "Products"}
+                      </button>
                     </div>
-                    <form className="profile-form" onSubmit={saveProfile}>
-                      <fieldset className="profile-fields" disabled={selected.role === "STAFF"}>
-                        <label className="field full-field">
-                          <span>{t.businessName}</span>
-                          <input
-                            required
-                            maxLength={255}
-                            value={profile.name}
-                            onChange={(event) => updateField("name", event.target.value)}
-                          />
-                        </label>
-                        <label className="field full-field">
-                          <span>{t.slug}</span>
-                          <input
-                            maxLength={100}
-                            value={profile.slug}
-                            onChange={(event) => updateField("slug", event.target.value)}
-                          />
-                        </label>
-                        <label className="field full-field">
-                          <span>{t.logo}</span>
-                          <input
-                            type="url"
-                            maxLength={1000}
-                            value={profile.logoUrl}
-                            onChange={(event) => updateField("logoUrl", event.target.value)}
-                          />
-                        </label>
-                        <label className="field full-field">
-                          <span>{t.description}</span>
-                          <textarea
-                            rows={3}
-                            maxLength={2000}
-                            value={profile.description}
-                            onChange={(event) => updateField("description", event.target.value)}
-                          />
-                        </label>
-                        <label className="field">
-                          <span>{t.phone}</span>
-                          <input
-                            maxLength={32}
-                            value={profile.phone}
-                            onChange={(event) => updateField("phone", event.target.value)}
-                          />
-                        </label>
-                        <label className="field">
-                          <span>{t.whatsapp}</span>
-                          <input
-                            maxLength={32}
-                            value={profile.whatsapp}
-                            onChange={(event) => updateField("whatsapp", event.target.value)}
-                          />
-                        </label>
-                        <label className="field full-field">
-                          <span>{t.email}</span>
-                          <input
-                            type="email"
-                            maxLength={320}
-                            value={profile.email}
-                            onChange={(event) => updateField("email", event.target.value)}
-                          />
-                        </label>
-                        <label className="field full-field">
-                          <span>{t.address}</span>
-                          <input
-                            maxLength={500}
-                            value={profile.address}
-                            onChange={(event) => updateField("address", event.target.value)}
-                          />
-                        </label>
-                        <label className="field">
-                          <span>{t.city}</span>
-                          <input
-                            maxLength={120}
-                            value={profile.city}
-                            onChange={(event) => updateField("city", event.target.value)}
-                          />
-                        </label>
-                        <label className="field">
-                          <span>{t.region}</span>
-                          <input
-                            maxLength={120}
-                            value={profile.region}
-                            onChange={(event) => updateField("region", event.target.value)}
-                          />
-                        </label>
-                        <label className="field full-field">
-                          <span>{t.country}</span>
-                          <input
-                            maxLength={80}
-                            value={profile.country}
-                            onChange={(event) => updateField("country", event.target.value)}
-                          />
-                        </label>
-                        <div className="form-footer">
-                          <span>{notice}</span>
-                          <button className="primary-button" type="submit" disabled={busy}>
-                            {busy ? t.saving : t.save}
-                          </button>
+                    {activeSection === "products" ? (
+                      <ProductPage
+                        businessId={selected.id}
+                        role={selected.role}
+                        language={language}
+                      />
+                    ) : (
+                      <>
+                        <div className="profile-heading">
+                          <div>
+                            <p className="eyebrow">{t.profile}</p>
+                            <h2>{selected.name}</h2>
+                          </div>
+                          <span className="role-pill">
+                            {t[selected.role.toLowerCase() as "owner" | "manager" | "staff"]}
+                          </span>
                         </div>
-                      </fieldset>
-                    </form>
+                        <form className="profile-form" onSubmit={saveProfile}>
+                          <fieldset className="profile-fields" disabled={selected.role === "STAFF"}>
+                            <label className="field full-field">
+                              <span>{t.businessName}</span>
+                              <input
+                                required
+                                maxLength={255}
+                                value={profile.name}
+                                onChange={(event) => updateField("name", event.target.value)}
+                              />
+                            </label>
+                            <label className="field full-field">
+                              <span>{t.slug}</span>
+                              <input
+                                maxLength={100}
+                                value={profile.slug}
+                                onChange={(event) => updateField("slug", event.target.value)}
+                              />
+                            </label>
+                            <label className="field full-field">
+                              <span>{t.logo}</span>
+                              <input
+                                type="url"
+                                maxLength={1000}
+                                value={profile.logoUrl}
+                                onChange={(event) => updateField("logoUrl", event.target.value)}
+                              />
+                            </label>
+                            <label className="field full-field">
+                              <span>{t.description}</span>
+                              <textarea
+                                rows={3}
+                                maxLength={2000}
+                                value={profile.description}
+                                onChange={(event) => updateField("description", event.target.value)}
+                              />
+                            </label>
+                            <label className="field">
+                              <span>{t.phone}</span>
+                              <input
+                                maxLength={32}
+                                value={profile.phone}
+                                onChange={(event) => updateField("phone", event.target.value)}
+                              />
+                            </label>
+                            <label className="field">
+                              <span>{t.whatsapp}</span>
+                              <input
+                                maxLength={32}
+                                value={profile.whatsapp}
+                                onChange={(event) => updateField("whatsapp", event.target.value)}
+                              />
+                            </label>
+                            <label className="field full-field">
+                              <span>{t.email}</span>
+                              <input
+                                type="email"
+                                maxLength={320}
+                                value={profile.email}
+                                onChange={(event) => updateField("email", event.target.value)}
+                              />
+                            </label>
+                            <label className="field full-field">
+                              <span>{t.address}</span>
+                              <input
+                                maxLength={500}
+                                value={profile.address}
+                                onChange={(event) => updateField("address", event.target.value)}
+                              />
+                            </label>
+                            <label className="field">
+                              <span>{t.city}</span>
+                              <input
+                                maxLength={120}
+                                value={profile.city}
+                                onChange={(event) => updateField("city", event.target.value)}
+                              />
+                            </label>
+                            <label className="field">
+                              <span>{t.region}</span>
+                              <input
+                                maxLength={120}
+                                value={profile.region}
+                                onChange={(event) => updateField("region", event.target.value)}
+                              />
+                            </label>
+                            <label className="field full-field">
+                              <span>{t.country}</span>
+                              <input
+                                maxLength={80}
+                                value={profile.country}
+                                onChange={(event) => updateField("country", event.target.value)}
+                              />
+                            </label>
+                            <div className="form-footer">
+                              <span>{notice}</span>
+                              <button className="primary-button" type="submit" disabled={busy}>
+                                {busy ? t.saving : t.save}
+                              </button>
+                            </div>
+                          </fieldset>
+                        </form>
+                      </>
+                    )}
                   </>
                 ) : (
                   <div className="empty-state">
