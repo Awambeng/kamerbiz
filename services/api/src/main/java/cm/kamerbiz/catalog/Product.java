@@ -92,6 +92,14 @@ public class Product {
     this.updatedAt = Instant.now();
   }
 
+  public void decreaseStock(int quantity) {
+    if (quantity < 1 || stockQuantity < quantity) {
+      throw new IllegalStateException("Insufficient stock.");
+    }
+    stockQuantity -= quantity;
+    updatedAt = Instant.now();
+  }
+
   public void setArchived(boolean archived) {
     this.archived = archived;
     this.updatedAt = Instant.now();

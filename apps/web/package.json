@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "node --test src/catalog/*.test.mjs",
+    "test": "node --test src/catalog/*.test.mjs src/orders/*.test.mjs src/storefront/*.test.mjs",
     "build": "npm test && tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b",

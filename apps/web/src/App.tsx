@@ -2,6 +2,9 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { useAuth } from "./auth/KeycloakProvider";
 import { useApi } from "./auth/api";
 import ProductPage from "./catalog/ProductPage";
+import StorefrontPage from "./storefront/StorefrontPage";
+import OrderTrackingPage from "./storefront/OrderTrackingPage";
+import OrdersPage from "./orders/OrdersPage";
 
 type Business = {
   id: string;
@@ -147,6 +150,16 @@ async function responseData<T>(response: Response, messages: ErrorMessages): Pro
 }
 
 export default function App() {
+  if (window.location.pathname.startsWith("/store/")) {
+    return <StorefrontPage />;
+  }
+  if (window.location.pathname.startsWith("/track/")) {
+    return <OrderTrackingPage />;
+  }
+  return <BusinessWorkspace />;
+}
+
+function BusinessWorkspace() {
   const auth = useAuth();
   const apiFetch = useApi();
   const [language, setLanguage] = useState<Language>("en");
@@ -159,7 +172,7 @@ export default function App() {
   const [loadingBusinesses, setLoadingBusinesses] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const [activeSection, setActiveSection] = useState<"profile" | "products">("profile");
+  const [activeSection, setActiveSection] = useState<"profile" | "products" | "orders">("profile");
 
   const loadBusinesses = useCallback(async () => {
     setLoadingBusinesses(true);
@@ -405,8 +418,16 @@ export default function App() {
                       >
                         {language === "fr" ? "Produits" : "Products"}
                       </button>
+                      <button
+                        className={activeSection === "orders" ? "active" : ""}
+                        onClick={() => setActiveSection("orders")}
+                      >
+                        {language === "fr" ? "Commandes" : "Orders"}
+                      </button>
                     </div>
-                    {activeSection === "products" ? (
+                    {activeSection === "orders" ? (
+                      <OrdersPage key={selected.id} businessId={selected.id} language={language} />
+                    ) : activeSection === "products" ? (
                       <ProductPage
                         key={selected.id}
                         businessId={selected.id}
@@ -443,6 +464,16 @@ export default function App() {
                                 onChange={(event) => updateField("slug", event.target.value)}
                               />
                             </label>
+                            <a
+                              className="store-link"
+                              href={`/store/${profile.slug}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {language === "fr"
+                                ? "Voir la boutique publique"
+                                : "View public store"}
+                            </a>
                             <label className="field full-field">
                               <span>{t.logo}</span>
                               <input
